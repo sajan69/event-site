@@ -33,6 +33,7 @@ class EventOrganizer(models.Model):
     """
     Organizer of the event
     """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     bio = models.TextField()
     profile_picture = models.ImageField(upload_to='organizer_profiles/', null=True, blank=True)
