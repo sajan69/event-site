@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Scan Ticket - EventMaster{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
+
+<style>
+    .scanner-container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 20px;
+    }
+    #preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .scanner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    }
+    .scanner-frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    }
+    .scanner-line {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #00ff00;
+        animation: scan 2s linear infinite;
+    }
+    @keyframes scan {
+        0% { top: 0; }
+        50% { top: 100%; }
+        100% { top: 0; }
+    }
+    .result-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .result-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 400px;
+    }
+    #errorMessage {
+        color: red;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container py-5">
+    <h2 class="text-center mb-4">Scan Ticket QR Code</h2>
+    <div class="scanner-container shadow">
+        <div id="reader"></div>
+        <div class="scanner-overlay">
+            <div class="scanner-frame">
+                <div class="scanner-line"></div>
+            </div>
+        </div>
+    </div>
+    <p id="scan-status" class="text-center mt-3">Ready to scan. Please align QR code within the frame.</p>
+    <p id="errorMessage"></p>
+    <button id="startButton" class="btn btn-primary mt-3" style="display: none;">Start Scanner</button>
+</div>
+
+<div id="resultModal" class="result-modal">
+    <div class="result-content">
+        <h3 id="resultTitle"></h3>
+        <p id="resultMessage"></p>
+        <button id="closeModal" class="btn btn-primary">Close</button>
+    </div>
+</div>
+
+<script>
+    let html5QrCode;
+
+function verifyTicket(ticketCode) {
+    console.log("Verifying ticket:", ticketCode);
+    fetch("{% url 'tickets:verify_ticket' %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ticket_code: ticketCode }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const resultModal = document.getElementById("resultModal");
+        const resultTitle = document.getElementById("resultTitle");
+        const resultMessage = document.getElementById("resultMessage");
+        
+        if (data.status === "success") {
+            resultTitle.innerText = "Ticket Verified";
+            resultTitle.style.color = "green";
+        } else {
+            resultTitle.innerText = "Verification Failed";
+            resultTitle.style.color = "red";
+        }
+        resultMessage.innerText = data.message;
+        resultModal.style.display = "block";
+    })
+    .catch(error => {
+        console.error("Error verifying ticket:", error);
+        document.getElementById("errorMessage").innerText = "Error verifying ticket. Please try again.";
+    });
+}
+
+function startScanner() {
+    const scannerOverlay = document.querySelector('.scanner-overlay');
+    const errorMessage = document.getElementById("errorMessage");
+    const startButton = document.getElementById("startButton");
+    
+    html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+        { facingMode: "environment" },
+        {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+        },
+        qrCodeMessage => {
+            html5QrCode.stop().then(() => {
+                scannerOverlay.style.display = 'none';
+                verifyTicket(qrCodeMessage);
+            });
+        },
+        error => {
+            console.log("Scanning error:", error);
+            if (error.includes("IndexSizeError")) {
+                errorMessage.innerText = "Camera initialization error. Please try reloading the page or check your camera permissions.";
+                startButton.style.display = "block";
+            }
+        }
+    ).catch(err => {
+        console.error("Failed to start scanner:", err);
+        errorMessage.innerText = "Failed to start scanner. Please ensure camera permissions are granted and try again.";
+        startButton.style.display = "block";
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const closeModal = document.getElementById("closeModal");
+    const resultModal = document.getElementById("resultModal");
+    const startButton = document.getElementById("startButton");
+    
+    startScanner();
+
+    closeModal.onclick = function() {
+        // Hide the modal and reset data
+        resultModal.style.display = "none";
+        
+        // Clear the status and error messages
+        document.getElementById("scan-status").innerText = "Ready to scan. Please align QR code within the frame.";
+        document.getElementById("errorMessage").innerText = "";
+
+        // Display the scanner overlay and restart the scanner
+        document.querySelector('.scanner-overlay').style.display = 'block';
+        startScanner();
+    }
+
+    startButton.onclick = function() {
+        document.getElementById("errorMessage").innerText = "";
+        startButton.style.display = "none";
+        startScanner();
+    }
+});
+
+</script>
+{% endblock %}

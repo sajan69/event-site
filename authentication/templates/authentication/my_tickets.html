@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}My Tickets - EventMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">My Tickets</h1>
+    <div class="row">
+        {% for ticket in tickets %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ticket.ticket_type.event.title }}</h5>
+                        <p class="card-text">
+                            <strong>Ticket Type:</strong> {{ ticket.ticket_type.name }}<br>
+                            <strong>Event Date:</strong> {{ ticket.ticket_type.event.start_datetime|date:"F d, Y" }}<br>
+                            <strong>Ticket Code:</strong> {{ ticket.unique_ticket_code }}<br>
+                            <strong>Status:</strong> {{ ticket.get_status_display }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'events:event_detail' ticket.ticket_type.event.id %}" class="btn btn-primary btn-sm">View Event</a>
+                        {% if ticket.qr_code %}
+                            <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#qrModal{{ ticket.id }}">View QR Code</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if ticket.qr_code %}
+                <div class="modal fade" id="qrModal{{ ticket.id }}" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel{{ ticket.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="qrModalLabel{{ ticket.id }}">Ticket QR Code</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{ ticket.qr_code.url }}" alt="Ticket QR Code" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <div class="col-12">
+                <p>You haven't purchased any tickets yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

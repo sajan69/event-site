@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Verify OTP - EventMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Verify OTP</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ email }}" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="otp" class="form-label">Enter OTP</label>
+                            <input type="text" class="form-control" id="otp" name="otp" required 
+                                   minlength="6" maxlength="6" pattern="\d{6}"
+                                   placeholder="Enter 6-digit OTP">
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Verify OTP</button>
+                            <button type="button" id="resendOtp" class="btn btn-outline-secondary">
+                                Resend OTP <span id="countdown" class="d-none"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const resendBtn = document.getElementById('resendOtp');
+        const countdownSpan = document.getElementById('countdown');
+        let countdown = 0;
+        
+        function updateCountdown() {
+            if (countdown > 0) {
+                countdownSpan.textContent = `(${countdown}s)`;
+                countdown--;
+                setTimeout(updateCountdown, 1000);
+            } else {
+                countdownSpan.classList.add('d-none');
+                resendBtn.disabled = false;
+            }
+        }
+        
+        resendBtn.addEventListener('click', async function() {
+            try {
+                resendBtn.disabled = true;
+                
+                const response = await fetch("{% url 'authentication:resend_otp' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Start countdown for 60 seconds
+                    countdown = 60;
+                    countdownSpan.classList.remove('d-none');
+                    updateCountdown();
+                    
+                    // Show success message
+                    const alert = document.createElement('div');
+                    alert.className = 'alert alert-success';
+                    alert.textContent = data.message;
+                    document.querySelector('.messages').appendChild(alert);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                // Show error message
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-danger';
+                alert.textContent = error.message || 'Failed to resend OTP. Please try again.';
+                document.querySelector('.messages').appendChild(alert);
+                
+                resendBtn.disabled = false;
+            }
+        });
+    });
+    </script>
+    {% endblock %}
+{% endblock %}

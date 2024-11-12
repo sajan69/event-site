@@ -1,0 +1,53 @@
+<!-- templates/tickets/order_confirmation.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                    <h2 class="card-title mb-4">Order Confirmed!</h2>
+                    <p class="lead">Thank you for your purchase. Your tickets have been sent to your email.</p>
+                    <hr>
+                    <div class="order-details text-left">
+                        <h4>Order Summary</h4>
+                        <p><strong>Order ID:</strong> #{{ transaction.id }}</p>
+                        <p><strong>Date:</strong> {{ transaction.created_at|date:"F j, Y" }}</p>
+                        <p><strong>Total Amount:</strong> ${{ transaction.amount }}</p>
+                        
+                        <h5 class="mt-4">Tickets</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Ticket Type</th>
+                                        <th>Ticket ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ticket in tickets %}
+                                    <tr>
+                                        <td>{{ ticket.ticket_type.event.title }}</td>
+                                        <td>{{ ticket.ticket_type.name }}</td>
+                                        <td>{{ ticket.unique_ticket_code }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p class="text-muted">A confirmation email has been sent to {{ transaction.user.email }}</p>
+                        <a href="{% url 'events:search' %}" class="btn btn-primary">Browse More Events</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

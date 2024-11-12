@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <circle cx="250" cy="250" r="240" fill="#f8f9fa" stroke="#007bff" stroke-width="20"/>
+  <text x="250" y="220" font-family="Arial, sans-serif" font-size="160" text-anchor="middle" fill="#007bff">404</text>
+  <text x="250" y="320" font-family="Arial, sans-serif" font-size="40" text-anchor="middle" fill="#6c757d">Page Not Found</text>
+</svg>

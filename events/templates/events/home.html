@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - EventMaster{% endblock %}
+
+{% block content %}
+<style>
+    .card-img-overlay {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+    }
+    .countdown {
+        font-size: 1.2rem;
+        font-weight: bold;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .organizer-card img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #007bff;
+        transition: transform 0.3s ease;
+    }
+    .organizer-card:hover img {
+        transform: scale(1.1);
+    }
+    .category-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+    }
+    .category-card:hover .category-icon {
+        transform: scale(1.2);
+    }
+    .event-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    .full-width-section {
+        width: 100%;
+        max-width: 100%;
+        padding: 4rem 0;
+    }
+    .content-wrapper {
+        width: 100%;
+        max-width: 1920px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+</style>
+
+<!-- Featured Events Carousel -->
+<section class="full-width-section p-0">
+    <div id="featuredEventsCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for event in featured_events %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="card text-white">
+                    {% if event.poster %}
+                        <img src="{{ event.poster.url }}" class="card-img w-100" alt="{{ event.title }}" style="height: 70vh; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img bg-secondary w-100" style="height: 70vh;"></div>
+                    {% endif %}
+                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                        <div class="content-wrapper">
+                            <h3 class="card-title display-4">{{ event.title }}</h3>
+                            <p class="card-text lead">
+                                <i class="far fa-calendar-alt"></i> {{ event.start_datetime|date:"F d, Y" }}
+                                <br>
+                                <i class="fas fa-map-marker-alt"></i> {{ event.venue_name }}
+                            </p>
+                            <div class="countdown mb-3" data-countdown="{{ event.start_datetime|date:'Y/m/d' }}"></div>
+                            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary btn-lg">Get Tickets</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#featuredEventsCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#featuredEventsCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+
+<!-- Event Categories -->
+<section class="full-width-section bg-light">
+    <div class="content-wrapper">
+        <h2 class="section-title">Browse by Category</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-3 col-sm-6 mb-4">
+                <a href="{% url 'events:search' %}?category={{ category.id }}" class="text-decoration-none">
+                    <div class="card bg-white text-center h-100 border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-{{ category.icon }} category-icon text-primary"></i>
+                            <h5 class="card-title">{{ category.name }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Organizers -->
+<section class="full-width-section">
+    <div class="content-wrapper">
+        <h2 class="section-title">Top Event Organizers</h2>
+        <div class="row">
+            {% for organizer in featured_organizers %}
+            <div class="col-md-3 mb-4">
+                <div class="card text-center border-0 shadow-sm organizer-card">
+                    <div class="card-body">
+                        {% if organizer.profile_picture %}
+                            <img src="{{ organizer.profile_picture.url }}" alt="{{ organizer.name }}" class="mb-3">
+                        {% else %}
+                            <div class="mb-3 bg-secondary text-white d-flex align-items-center justify-content-center rounded-circle" style="width: 120px; height: 120px; margin: 0 auto;">
+                                <span>No Image</span>
+                            </div>
+                        {% endif %}
+                        <h5 class="card-title">{{ organizer.name }}</h5>
+                        <p class="card-text">{{ organizer.events_count }} Events</p>
+                        <a href="{% url 'events:organizer_profile' organizer.id %}" class="btn btn-outline-primary">View Profile</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="full-width-section bg-light">
+    <div class="content-wrapper">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="row">
+            {% for event in upcoming_events %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm event-card">
+                    {% if event.poster %}
+                        <img src="{{ event.poster.url }}" class="card-img-top" alt="{{ event.title }}" style="height: 250px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <span>No Image Available</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                        <p><i class="far fa-calendar-alt"></i> {{ event.start_datetime|date:"F d, Y" }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ event.venue_name }}, {{ event.city }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary btn-block">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'events:search' %}" class="btn btn-lg btn-primary">View All Events</a>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize countdown timers
+        $('[data-countdown]').each(function() {
+            var $this = $(this), finalDate = $(this).data('countdown');
+            $this.countdown(finalDate, function(event) {
+                $this.html(event.strftime('%D days %H:%M:%S'));
+            });
+        });
+
+        // Initialize Bootstrap Carousel
+        $('.carousel').carousel({
+            interval: 5000
+        });
+    });
+</script>
+{% endblock %}

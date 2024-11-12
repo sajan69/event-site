@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ organizer.name }} - EventMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ organizer.profile_picture.url }}" class="card-img-top" alt="{{ organizer.name }}">
+                <div class="card-body">
+                    <h1 class="card-title">{{ organizer.name }}</h1>
+                    <p class="card-text">{{ organizer.bio }}</p>
+                    <p><i class="fas fa-envelope"></i> {{ organizer.email }}</p>
+                    <p><i class="fas fa-phone"></i> {{ organizer.phone }}</p>
+                    <p><i class="fas fa-globe"></i> <a href="{{ organizer.website }}" target="_blank">Website</a></p>
+                    <div class="social-links mt-3">
+                        {% if organizer.facebook %}
+                        <a href="{{ organizer.facebook }}" class="btn btn-outline-primary" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        {% endif %}
+                        {% if organizer.twitter %}
+                        <a href="{{ organizer.twitter }}" class="btn btn-outline-primary" target="_blank"><i class="fab fa-twitter"></i></a>
+                        {% endif %}
+                        {% if organizer.instagram %}
+                        <a href="{{ organizer.instagram }}" class="btn btn-outline-primary" target="_blank"><i class="fab fa-instagram"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h2 class="mb-4">Upcoming Events by {{ organizer.name }}</h2>
+            {% for event in upcoming_events %}
+            <div class="card mb-4">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ event.poster.url }}" class="card-img" alt="{{ event.title }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <p class="card-text">{{ event.description|truncatewords:30 }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="far fa-calendar-alt"></i> {{ event.start_datetime|date:"F d, Y" }}
+                                    <i class="fas fa-map-marker-alt ml-2"></i> {{ event.venue_name }}, {{ event.city }}
+                                </small>
+                            </p>
+                            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No upcoming events.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="mb-4">Past Events</h2>
+            <div class="row">
+                {% for event in past_events %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ event.poster.url }}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <p class="card-text"><small class="text-muted">{{ event.start_datetime|date:"F d, Y" }}</small></p>
+                            <a href="{% url 'events:event_detail' event.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No past events.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

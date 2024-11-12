@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Add to Cart - EventMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Add Tickets to Cart</h1>
+    <form action="{% url 'tickets:checkout' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            {% for ticket_type in ticket_types %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ ticket_type.name }}</h5>
+                            <p class="card-text">
+                                <strong>Price:</strong> ${{ ticket_type.price }}<br>
+                                <strong>Available:</strong> {{ ticket_type.available_quantity }}
+                            </p>
+                            {% if ticket_type.description %}
+                                <p class="card-text">{{ ticket_type.description }}</p>
+                            {% endif %}
+                            <div class="form-group">
+                                <label for="quantity_{{ ticket_type.id }}">Quantity:</label>
+                                <input type="number" class="form-control" id="quantity_{{ ticket_type.id }}" name="quantity_{{ ticket_type.id }}" min="0" max="{{ ticket_type.available_quantity }}" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

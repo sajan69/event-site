@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Event Management{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Login</h2>
+    <form action="{% url 'authentication:login' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - EventMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Contact Us</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <form action="{% url 'events:contact' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+        <div class="col-lg-6 mt-4 mt-lg-0">
+            <h4>Get in Touch</h4>
+            <p>We'd love to hear from you! Whether you have a question about our services, need help with your account, or want to partner with us, our team is ready to assist you.</p>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-map-marker-alt text-primary mr-2"></i> 123 Event Street, City, Country</li>
+                <li><i class="fas fa-phone text-primary mr-2"></i> +1 (123) 456-7890</li>
+                <li><i class="fas fa-envelope text-primary mr-2"></i> info@eventmaster.com</li>
+            </ul>
+            <h4 class="mt-4">Follow Us</h4>
+            <div class="social-icons">
+                <a href="#" class="text-primary mr-3"><i class="fab fa-facebook-f fa-2x"></i></a>
+                <a href="#" class="text-primary mr-3"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="text-primary mr-3"><i class="fab fa-instagram fa-2x"></i></a>
+                <a href="#" class="text-primary"><i class="fab fa-linkedin-in fa-2x"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

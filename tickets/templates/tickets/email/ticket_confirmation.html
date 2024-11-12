@@ -1,0 +1,116 @@
+<!-- tickets/email/ticket_confirmation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Ticket Confirmation</title>
+    <style>
+        /* Email client-safe styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #dee2e6;
+        }
+        .ticket-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            background-color: #ffffff;
+        }
+        .qr-code {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .qr-code img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .ticket-info {
+            margin: 15px 0;
+        }
+        .ticket-code {
+            font-family: monospace;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Tickets are Confirmed!</h1>
+            <p>Order #{{ transaction.id }}</p>
+        </div>
+
+        <div class="content">
+            <p>Dear {{ user.get_full_name|default:user.email }},</p>
+            
+            <p>Thank you for your purchase! Below you'll find your ticket(s) details and QR codes.</p>
+
+            <p><strong>Order Summary:</strong></p>
+            <ul>
+                <li>Order Date: {{ transaction.created_at|date:"F j, Y, g:i a" }}</li>
+                <li>Total Amount: ${{ transaction.amount }}</li>
+            </ul>
+
+            {% for ticket_data in tickets_data %}
+            <div class="ticket-container">
+                <h2>{{ ticket_data.ticket.ticket_type.name }}</h2>
+                
+                <div class="ticket-info">
+                    <p><strong>Ticket Code:</strong> <span class="ticket-code">{{ ticket_data.ticket.unique_ticket_code }}</span></p>
+                    <p><strong>Status:</strong> {{ ticket_data.ticket.status|title }}</p>
+                    <p><strong>Purchase Date:</strong> {{ ticket_data.ticket.purchased_at|date:"F j, Y, g:i a" }}</p>
+                </div>
+
+                {% if ticket_data.qr_code_cid %}
+                <div class="qr-code">
+                    <p>Show this QR code at the entrance:</p>
+                    <img src="{{ ticket_data.qr_code_cid }}" 
+                         alt="Ticket QR Code for {{ ticket_data.ticket.unique_ticket_code }}"
+                         style="width: 200px; height: 200px; display: block; margin: 10px auto;">
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <p><strong>Important Notes:</strong></p>
+            <ul>
+                <li>Each QR code is unique and can only be used once</li>
+                <li>Please have your ticket QR codes ready for scanning at the entrance</li>
+                <li>This email serves as your official ticket confirmation</li>
+            </ul>
+
+            <div class="footer">
+                <p>If you have any questions about your tickets, please contact our support team.</p>
+                <p>Thank you for your purchase!</p>
+                <p><small>This is an automated message, please do not reply to this email.</small></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
