@@ -10,7 +10,7 @@ urlpatterns = [
         path('search/', views.search, name='search'),  # Add this line
         path('about/',views.about, name='about'),
     path('contact/', views.contact, name='contact'),
-        path('organizer/<int:organizer_id>/', views.organizer_profile, name='organizer_profile'),
+        path('organizer/<uuid:organizer_id>/', views.organizer_profile, name='organizer_profile'),
 
 
 ]
