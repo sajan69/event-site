@@ -3,6 +3,7 @@ from .models import Event, EventTag, EventCategory, EventOrganizer
 from django.db import models
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 def home(request):
     featured_events = Event.objects.filter(is_featured=True)[:5]
@@ -20,6 +21,14 @@ def home(request):
     }
     print(context)
     return render(request, 'events/home.html', context)
+
+def event_search_autocomplete(request):
+    if 'q' in request.GET:
+        query = request.GET['q']
+        events = Event.objects.filter(title__icontains=query)[:10]  # Limit to 10 results
+        results = [{'id': event.id, 'title': event.title} for event in events]
+        return JsonResponse({'results': results})  # Wrap results in a dictionary
+    return JsonResponse({'results': []})
 
 def event_detail(request, event_id):
     event = Event.objects.get(id=event_id)
@@ -47,10 +56,12 @@ from authentication.models import Contact
 from django.utils import timezone
 from datetime import timedelta
 
+
+
 def search(request):
     query = request.GET.get('q', '')
     category_id = request.GET.get('category', None)
-    tag_id = request.GET.get('tag', None)
+    tag_ids = request.GET.getlist('tag')  # Changed to getlist for multiple tags
     date_range = request.GET.get('date_range', None)
 
     events = Event.objects.all()
@@ -63,9 +74,11 @@ def search(request):
     if category_id:
         events = events.filter(category_id=category_id)
 
-    # Filtering by tag
-    if tag_id:
-        events = events.filter(tags__id=tag_id)
+    # Filtering by tags
+    if tag_ids:
+        events = events.filter(tags__id__in=tag_ids)  # Use __in for multiple tags
+    
+    
 
     # Filtering by date range
     if date_range:
@@ -97,14 +110,17 @@ def search(request):
     categories = EventCategory.objects.all()
     tags = EventTag.objects.all()
 
+    selected_tags = EventTag.objects.filter(id__in=tag_ids) if tag_ids else []
+
     return render(request, 'events/search_results.html', {
         'events': events,
         'categories': categories,
         'tags': tags,
         'query': query,
         'selected_category': category_id,
-        'selected_tag': tag_id,
+        'selected_tags': tag_ids,  # Updated to reflect selected tags
         'selected_date_range': date_range,
+        'selected_tags_names': selected_tags,  # Added context for selected tags names
     })
 
 def about(request):
@@ -133,3 +149,83 @@ def contact(request):
 
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
+
+def forbidden_view(request, exception):
+    return render(request, '403.html', status=403)
+
+from django.http import HttpResponse
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Disallow: /static/",
+        "Allow: /",
+        "Sitemap: https://events.sajanadhikari.com.np/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from .models import NewsletterSubscriber
+
+@require_POST
+def subscribe_newsletter(request):
+    email = request.POST.get('email', '').strip()
+    
+    try:
+        # Validate email
+        validate_email(email)
+        
+        # Create or get subscriber
+        subscriber, created = NewsletterSubscriber.objects.get_or_create(
+            email=email,
+            defaults={'is_active': True}
+        )
+        
+        if created:
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Thank you for subscribing to our newsletter!'
+            })
+        elif not subscriber.is_active:
+            subscriber.is_active = True
+            subscriber.save()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Your subscription has been reactivated!'
+            })
+        else:
+            return JsonResponse({
+                'status': 'info',
+                'message': 'You are already subscribed to our newsletter.'
+            })
+            
+    except ValidationError:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Please enter a valid email address.'
+        }, status=400)
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'An error occurred. Please try again later.'
+        }, status=500)
+    
+
+def newsletter_unsubscribe(request, email, token):
+    subscriber = get_object_or_404(NewsletterSubscriber, email=email)
+    
+    if subscriber.verify_unsubscribe_token(token):
+        subscriber.is_active = False
+        subscriber.save()
+        return render(request, 'events/newsletter_unsubscribe.html', {
+            'success': True,
+            'email': email
+        })
+    else:
+        return render(request, 'events/newsletter_unsubscribe.html', {
+            'success': False
+        })

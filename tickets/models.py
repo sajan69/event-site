@@ -5,7 +5,8 @@ import uuid
 import qrcode
 from io import BytesIO
 from django.core.files import File
-
+import time
+from django.db import transaction as db_transaction  # Renamed import
 class TicketType(models.Model):
     """
     Defines different ticket types for an event
@@ -54,17 +55,44 @@ class TicketType(models.Model):
     
     def save(self, *args, **kwargs):
         """
-        Ensure available quantity is initialized to total quantity only once
-        and update the sold-out status based on available quantity.
+        Handle ticket type creation and updates
         """
-        # Only set available_quantity to total_quantity on the first save
-        if self.pk is None:  # Only when the instance is first created
+        is_new = self.pk is None
+        
+        # Calculate total existing quantity
+        total_existing_quantity = 0
+        if self.pk:
+            total_existing_quantity = sum(
+                ticket.total_quantity 
+                for ticket in self.event.ticket_types.exclude(pk=self.pk)
+            )
+        else:
+            total_existing_quantity = sum(
+                ticket.total_quantity 
+                for ticket in self.event.ticket_types.all()
+            )
+
+        # Validate total capacity
+        if total_existing_quantity + self.total_quantity > self.event.total_capacity:
+            raise ValueError(
+                f"Total quantity of all ticket types ({total_existing_quantity + self.total_quantity}) "
+                f"cannot exceed the event's total capacity ({self.event.total_capacity})."
+            )
+
+        # Set initial available quantity
+        if self.pk is None:
             self.available_quantity = self.total_quantity
         
-        # Update the sold-out status based on available quantity
+        # Update sold-out status
         self.is_sold_out = self.available_quantity <= 0
         
         super().save(*args, **kwargs)
+        
+        # Send email notification for new ticket types in featured events
+        if is_new and self.event.is_featured:
+            from .utils import send_new_tickets_email
+            send_new_tickets_email(self.event, [self])
+
 
     def __str__(self):
         return f"{self.event.title} - {self.get_name_display()} Ticket"
@@ -72,7 +100,6 @@ class TicketType(models.Model):
     class Meta:
         unique_together = ['event', 'name']
         ordering = ['price']
-
 
 class Ticket(models.Model):
     """
@@ -120,61 +147,95 @@ class Ticket(models.Model):
 
     purchased_at = models.DateTimeField(auto_now_add=True)
     used_at = models.DateTimeField(null=True, blank=True)
+
     
     def generate_unique_ticket_code(self):
         """
-        Generate a unique ticket code
+        Generate a unique ticket code with retries and timestamp
         """
-        return uuid.uuid4().hex[:10].upper()
+        max_attempts = 10
+        for attempt in range(max_attempts):
+            timestamp = int(time.time() * 1000)
+            code = f"{self.ticket_type.event.id.hex[:4]}-{timestamp}-{uuid.uuid4().hex[:6].upper()}"
+            
+            if not Ticket.objects.filter(unique_ticket_code=code).exists():
+                return code
+            time.sleep(0.1)
+        raise ValueError("Unable to generate unique ticket code after maximum attempts")
 
     def generate_qr_code(self):
-        """
-        Generate QR code for the ticket
-        """
-        qr = qrcode.QRCode(
-            version=1, 
-            box_size=10, 
-            border=5
-        )
-        qr.add_data(self.unique_ticket_code)
-        qr.make(fit=True)
-        
-        img = qr.make_image(
-            fill_color="black", 
-            back_color="white"
-        )
-        
-        # Save QR code
-        buffer = BytesIO()
-        img.save(buffer, format='PNG')
-        filename = f'ticket_qr_{self.unique_ticket_code}.png'
-        
-        self.qr_code.save(filename, File(buffer), save=False)
+        """Generate QR code for the ticket"""
+        try:
+            if not self.unique_ticket_code:
+                raise ValueError("Cannot generate QR code without a unique ticket code")
 
+            qr = qrcode.QRCode(
+                version=1,
+                box_size=10,
+                border=5
+            )
+            qr.add_data(self.unique_ticket_code)
+            qr.make(fit=True)
+            
+            img = qr.make_image(fill_color="black", back_color="white")
+            
+            # Save QR code
+            buffer = BytesIO()
+            img.save(buffer, format='PNG')
+            buffer.seek(0)  # Reset buffer position
+            
+            filename = f'ticket_qr_{self.unique_ticket_code}.png'
+            
+            # Delete existing QR code if it exists
+            if self.qr_code:
+                try:
+                    self.qr_code.delete(save=False)
+                except Exception:
+                    pass
+            
+            # Save new QR code
+            self.qr_code.save(filename, File(buffer), save=True)  # Changed to save=True
+            buffer.close()
+            
+        except Exception as e:
+            print(f"QR Code generation error: {str(e)}")  # Add logging
+            raise ValueError(f"Failed to generate QR code: {str(e)}")
+
+    @db_transaction.atomic  # Using renamed import
     def save(self, *args, **kwargs):
         """
         Custom save method to generate ticket code and QR, and update quantity only on creation.
         """
-        # Only check and update available quantity when the ticket is first created
-        if not self.pk:  # self.pk will be None if the object is new (not yet saved)
-            # Check available quantity
-            if self.ticket_type.available_quantity <= 0:
+        is_new = self.pk is None
+        
+        if is_new:
+            # Lock the ticket type for update
+            ticket_type = TicketType.objects.select_for_update().get(pk=self.ticket_type.pk)
+            
+            if ticket_type.available_quantity <= 0:
                 raise ValueError("Cannot create ticket: No available quantity.")
-
-            # Generate unique ticket code if it does not exist
+            
+            # Generate unique code
             if not self.unique_ticket_code:
                 self.unique_ticket_code = self.generate_unique_ticket_code()
-
-            # Generate QR code if not exists
-            if not self.qr_code:
+            
+            # Save first to get the ID
+            super().save(*args, **kwargs)
+            
+            # Generate QR code
+            try:
                 self.generate_qr_code()
-
-            # Decrement available quantity in TicketType only on creation
-            self.ticket_type.available_quantity -= 1
-            self.ticket_type.is_sold_out = self.ticket_type.available_quantity <= 0
-            self.ticket_type.save()
-
-        super().save(*args, **kwargs)  # Save the ticket without altering quantity on update
+                # Update only the QR code field
+                super().save(update_fields=['qr_code'])
+            except Exception as e:
+                raise ValueError(f"Failed to generate QR code: {str(e)}")
+            
+            # Update ticket type quantity
+            ticket_type.available_quantity -= 1
+            ticket_type.is_sold_out = ticket_type.available_quantity <= 0
+            ticket_type.save()
+        else:
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.ticket_type} - {self.unique_ticket_code}"
@@ -184,7 +245,6 @@ class Ticket(models.Model):
         indexes = [
             models.Index(fields=['unique_ticket_code', 'status'])
         ]
-
 
 class Transaction(models.Model):
     PAYMENT_STATUS_CHOICES = [

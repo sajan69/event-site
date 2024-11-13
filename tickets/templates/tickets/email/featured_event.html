@@ -1,0 +1,32 @@
+{% extends "tickets/email/base_email.html" %}
+
+{% block content %}
+<div class="content">
+    <h2>New Featured Event!</h2>
+    <p>We're excited to announce a new featured event that might interest you!</p>
+    
+    <div class="event-card">
+        {% if poster_cid %}
+            <img src="{{ poster_cid }}" alt="{{ event.title }}" class="event-image">
+        {% endif %}
+        <div class="event-details">
+            <h3>{{ event.title }}</h3>
+            <p><strong>Date:</strong> {{ event.start_datetime|date:"F j, Y, g:i a" }}</p>
+            <p><strong>Venue:</strong> {{ event.venue_name }}, {{ event.city }}</p>
+            <p>{{ event.description|truncatewords:50 }}</p>
+            
+            {% if ticket_types %}
+                <h4>Available Tickets:</h4>
+                {% for ticket in ticket_types %}
+                    <div class="ticket-type">
+                        <strong>{{ ticket.name }}</strong>
+                        <p>Price: ${{ ticket.price }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <a href="{{ event_url }}" class="button">View Event Details</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

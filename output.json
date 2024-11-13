@@ -1,0 +1,1478 @@
+[
+    {
+        "model": "admin.logentry",
+        "pk": 11,
+        "fields": {
+            "action_time": "2024-11-12T11:36:23.987Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 9,
+            "object_id": "1",
+            "object_repr": "Sajan",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Website\", \"Twitter\", \"Instagram\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 10,
+        "fields": {
+            "action_time": "2024-11-12T11:25:44.919Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 7,
+            "object_id": "2d68cafe-7075-48c0-8862-d30760bdf57d",
+            "object_repr": "New event",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Start datetime\", \"End datetime\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 9,
+        "fields": {
+            "action_time": "2024-11-12T09:36:21.657Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 10,
+            "object_id": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "object_repr": "New event - Standard Ticket",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Available quantity\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 8,
+        "fields": {
+            "action_time": "2024-11-12T09:31:46.442Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 10,
+            "object_id": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "object_repr": "New event - Standard Ticket",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Available quantity\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 7,
+        "fields": {
+            "action_time": "2024-11-12T08:33:11.625Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 13,
+            "object_id": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "object_repr": "sajanac46@gmail.com",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Active\", \"Verified\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2024-11-12T06:20:45.048Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 10,
+            "object_id": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "object_repr": "New event - Standard Ticket",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2024-11-12T06:20:00.266Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 7,
+            "object_id": "2d68cafe-7075-48c0-8862-d30760bdf57d",
+            "object_repr": "New event",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2024-11-03T15:17:31.053Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 7,
+            "object_id": "c6116181-532a-4ada-bcbf-1103f843a4ac",
+            "object_repr": "Ekadeshma Tour",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2024-11-03T15:16:20.864Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 9,
+            "object_id": "1",
+            "object_repr": "Sajan",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2024-11-03T15:08:39.144Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 8,
+            "object_id": "00c53d87-a0a4-4f7e-bcd9-9b3bdcb2a405",
+            "object_repr": "Concert",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2024-11-03T15:08:29.753Z",
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "content_type": 6,
+            "object_id": "81a0a28e-7ee7-48b8-991c-f22e0b7b19a0",
+            "object_repr": "Concert",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 57,
+        "fields": {
+            "name": "Can add contact",
+            "content_type": 15,
+            "codename": "add_contact"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 58,
+        "fields": {
+            "name": "Can change contact",
+            "content_type": 15,
+            "codename": "change_contact"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 59,
+        "fields": {
+            "name": "Can delete contact",
+            "content_type": 15,
+            "codename": "delete_contact"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 60,
+        "fields": {
+            "name": "Can view contact",
+            "content_type": 15,
+            "codename": "view_contact"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 49,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 13,
+            "codename": "add_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 50,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 13,
+            "codename": "change_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 51,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 13,
+            "codename": "delete_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 52,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 13,
+            "codename": "view_customuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 53,
+        "fields": {
+            "name": "Can add otp",
+            "content_type": 14,
+            "codename": "add_otp"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 54,
+        "fields": {
+            "name": "Can change otp",
+            "content_type": 14,
+            "codename": "change_otp"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 55,
+        "fields": {
+            "name": "Can delete otp",
+            "content_type": 14,
+            "codename": "delete_otp"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 56,
+        "fields": {
+            "name": "Can view otp",
+            "content_type": 14,
+            "codename": "view_otp"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 4,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 4,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 4,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 4,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add event",
+            "content_type": 7,
+            "codename": "add_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change event",
+            "content_type": 7,
+            "codename": "change_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete event",
+            "content_type": 7,
+            "codename": "delete_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view event",
+            "content_type": 7,
+            "codename": "view_event"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add event category",
+            "content_type": 6,
+            "codename": "add_eventcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change event category",
+            "content_type": 6,
+            "codename": "change_eventcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete event category",
+            "content_type": 6,
+            "codename": "delete_eventcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view event category",
+            "content_type": 6,
+            "codename": "view_eventcategory"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add event organizer",
+            "content_type": 9,
+            "codename": "add_eventorganizer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change event organizer",
+            "content_type": 9,
+            "codename": "change_eventorganizer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete event organizer",
+            "content_type": 9,
+            "codename": "delete_eventorganizer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view event organizer",
+            "content_type": 9,
+            "codename": "view_eventorganizer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add event tag",
+            "content_type": 8,
+            "codename": "add_eventtag"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change event tag",
+            "content_type": 8,
+            "codename": "change_eventtag"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete event tag",
+            "content_type": 8,
+            "codename": "delete_eventtag"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view event tag",
+            "content_type": 8,
+            "codename": "view_eventtag"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 5,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 5,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 5,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 5,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 41,
+        "fields": {
+            "name": "Can add ticket",
+            "content_type": 11,
+            "codename": "add_ticket"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 42,
+        "fields": {
+            "name": "Can change ticket",
+            "content_type": 11,
+            "codename": "change_ticket"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 43,
+        "fields": {
+            "name": "Can delete ticket",
+            "content_type": 11,
+            "codename": "delete_ticket"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 44,
+        "fields": {
+            "name": "Can view ticket",
+            "content_type": 11,
+            "codename": "view_ticket"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 37,
+        "fields": {
+            "name": "Can add ticket type",
+            "content_type": 10,
+            "codename": "add_tickettype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 38,
+        "fields": {
+            "name": "Can change ticket type",
+            "content_type": 10,
+            "codename": "change_tickettype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 39,
+        "fields": {
+            "name": "Can delete ticket type",
+            "content_type": 10,
+            "codename": "delete_tickettype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 40,
+        "fields": {
+            "name": "Can view ticket type",
+            "content_type": 10,
+            "codename": "view_tickettype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 45,
+        "fields": {
+            "name": "Can add transaction",
+            "content_type": 12,
+            "codename": "add_transaction"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 46,
+        "fields": {
+            "name": "Can change transaction",
+            "content_type": 12,
+            "codename": "change_transaction"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 47,
+        "fields": {
+            "name": "Can delete transaction",
+            "content_type": 12,
+            "codename": "delete_transaction"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 48,
+        "fields": {
+            "name": "Can view transaction",
+            "content_type": 12,
+            "codename": "view_transaction"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 1,
+        "fields": {
+            "app_label": "admin",
+            "model": "logentry"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 2,
+        "fields": {
+            "app_label": "auth",
+            "model": "permission"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 3,
+        "fields": {
+            "app_label": "auth",
+            "model": "group"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 4,
+        "fields": {
+            "app_label": "contenttypes",
+            "model": "contenttype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 5,
+        "fields": {
+            "app_label": "sessions",
+            "model": "session"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 6,
+        "fields": {
+            "app_label": "events",
+            "model": "eventcategory"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 7,
+        "fields": {
+            "app_label": "events",
+            "model": "event"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 8,
+        "fields": {
+            "app_label": "events",
+            "model": "eventtag"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 9,
+        "fields": {
+            "app_label": "events",
+            "model": "eventorganizer"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 10,
+        "fields": {
+            "app_label": "tickets",
+            "model": "tickettype"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 11,
+        "fields": {
+            "app_label": "tickets",
+            "model": "ticket"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 12,
+        "fields": {
+            "app_label": "tickets",
+            "model": "transaction"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 13,
+        "fields": {
+            "app_label": "authentication",
+            "model": "customuser"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 14,
+        "fields": {
+            "app_label": "authentication",
+            "model": "otp"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 15,
+        "fields": {
+            "app_label": "authentication",
+            "model": "contact"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "ky87v91wkypxymwl5iemly4sb9rhck65",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1t7cD0:btuk7CdELzBY1To9A5poDW7b_1V5g1T2ehbJgrkXNHs",
+            "expire_date": "2024-11-17T15:08:06.045Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "2ag1d1aplk2x2zh2i27d15ryrwvsn343",
+        "fields": {
+            "session_data": ".eJxVjjkOwjAQRe_imljj8XijpOcECEXjjQRQImWpEHeHSCmg_u89_ZdoeV26dp3L1PZZHIVOVlnvsCkmhYZshsaDCQ17ncAUiDmTOPxqkdOjDJub7zzcRpnGYZn6KDdE7ussz2Muz9PO_gU6nruvTYa1h0jaFx0REF0FcGiVhxopuJIZk8uKIhGiQlUC-cqBqtfa4PYq8bSI4-X6_gAGN0Jm:1tAkPU:AFd01-xD5PY8ke0zdpgcxbmtBYEiMzpeaOmiOzirGFM",
+            "expire_date": "2024-11-26T06:29:56.977Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "vybvgofp9cnr686yy80r4d2eva0s22pl",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1tAkDx:SvDCMnVoFD9mV7mDxvCZ4cwUFOpsg1cjtdviTvrwD4M",
+            "expire_date": "2024-11-26T06:18:01.572Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "5hysty8bmv4gimlwlnytb0gpu35ew7rm",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1tAm4A:U17L_orLb0X49PoEl6xIBTth--9eAxQNSBdCvNLLON0",
+            "expire_date": "2024-11-26T08:16:02.152Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "9xlqp9cybhbhxsmyzk7pnsqayxnwre6q",
+        "fields": {
+            "session_data": ".eJxVjstOwzAURP_FaxLZjp3Y3QFCFY-qVEI8hJB1bd-QtEmcJg4PIf6dFHXT9ZwzMz_EwRDJ4vXtjBiYYmWmEQdTe7IgXnHLpKSJkgiJ0BoSJRgm6HhOGc1tRi050Sy4HXb_7ha695C60MWhtukBSY_pmK6Cx-biyJ4UVDBWsw22tLxkqgQGnheea8xlrqXW2tpCUeBMKqq0Kj33rtRWFJrrPOPMUyvE4ZULbd9gRG_iAN0ILtahMzHMm_OAG03EMRpgt0_7bHcl-P67ZZu637jQT5_NTdNK_OquH-vlw_lQ6WJ9eY-4V-1arLYfd8vnF_L7B4fXZzM:1tAnDl:UkGsgSymG3lUnmZyKtmRl7-1mFi8_icN2UflhFmiEPU",
+            "expire_date": "2024-11-26T09:30:01.621Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "rftguc998j757jurr1p9t20021naysso",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1tAnTA:ddk9Ybi3a1n6qiwmMXVDBTn8HOUgQVCc8qwRUM7aKGU",
+            "expire_date": "2024-11-26T09:45:56.909Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "67xnradyqio611r1f7sfl15lnp1wq22u",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1tAnlw:Fl_pHT_c_h6SYBfqxNBtzplarzuY7W5INKIynLbqK5Y",
+            "expire_date": "2024-11-26T10:05:20.639Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "k1bm3b9ccz80r9q0p8m3g69matof4le1",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1tAnzj:szuFyhHDZUzIAasOHHiBkxQGAnN_fK63ootiuTvyOZI",
+            "expire_date": "2024-11-26T10:19:35.780Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "lp1nwapu44adnkzi7p2kki2on2ahoel9",
+        "fields": {
+            "session_data": ".eJxVzDkOwjAQheG7uMbWeDzeKOk5QzTeSAAlUpYKcXeIlALq93_vJTre1r7bljp3QxFnYbLTLniU1eYoyRWQAWyUHEwGWyGVQuL0yxLnRx13W-483iaVp3Gdh6T2RB3roq5Tqc_L0f4d9Lz0X02WTYBEJlSTEBB9A_DodICWKPpaGLMvmhIRokZdI4XGkVowxiKJ9wd-ej9a:1tAo0J:6uVThB-USaUsgbX6Jb9G-apGyys8qjIIBhIjOKdbF2E",
+            "expire_date": "2024-11-26T10:20:11.174Z"
+        }
+    },
+    {
+        "model": "events.eventcategory",
+        "pk": "81a0a28e-7ee7-48b8-991c-f22e0b7b19a0",
+        "fields": {
+            "icon": "music",
+            "name": "Concert",
+            "description": "Concert happening",
+            "slug": "concert"
+        }
+    },
+    {
+        "model": "events.eventtag",
+        "pk": "00c53d87-a0a4-4f7e-bcd9-9b3bdcb2a405",
+        "fields": {
+            "name": "Concert",
+            "events": []
+        }
+    },
+    {
+        "model": "events.eventorganizer",
+        "pk": "d82b1550-85ea-499a-841e-ec260106b30b",  
+        "fields": {
+            "name": "John Doe",
+            "bio": "An experienced event organizer with a passion for creating memorable experiences.",
+            "profile_picture": null,  
+            "email": "john.doe@example.com",
+            "phone": "123-456-7890",
+            "website": "http://johndoeevents.com",
+            "facebook": "http://facebook.com/johndoe",
+            "twitter": "http://twitter.com/johndoe",
+            "instagram": "http://instagram.com/johndoe",
+            "slug": "john-doe"
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": "2d68cafe-7075-48c0-8862-d30760bdf57d",  
+        "fields": {
+            "title": "Sample Event 1",
+            "slug": "sample-event-1",
+            "description": "This is a description for Sample Event 1.",
+            "category": null,  
+            "start_datetime": "2024-12-01T10:00:00Z",
+            "end_datetime": "2024-12-01T12:00:00Z",
+            "venue_name": "Sample Venue",
+            "address": "123 Sample St.",
+            "city": "Sample City",
+            "country": "Sample Country",
+            "poster": null,  
+            "status": "published",
+            "organizer": "d82b1550-85ea-499a-841e-ec260106b30b",  
+            "is_free": false,
+            "total_capacity": 100,
+            "is_featured": true,
+            "created_at": "2024-11-12T06:20:45.045Z",  
+            "updated_at": "2024-11-12T06:20:45.045Z" 
+        }
+    },
+    {
+        "model": "tickets.tickettype",
+        "pk": "d3733b8f-d156-44af-9908-d41592c65d80",
+        "fields": {
+            "event": "2d68cafe-7075-48c0-8862-d30760bdf57d",
+            "name": "standard",
+            "description": "ok",
+            "price": "10.00",
+            "total_quantity": 10,
+            "available_quantity": 0,
+            "additional_perks": "ok",
+            "is_sold_out": true,
+            "created_at": "2024-11-12T06:20:45.045Z"
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "46b05131-f3c5-4dc4-8264-abe10c03a116",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "5DB97071A0",
+            "qr_code": "ticket_qr_codes/ticket_qr_5DB97071A0.png",
+            "status": "used",
+            "transaction": 16,
+            "purchased_at": "2024-11-12T09:29:57.599Z",
+            "used_at": "2024-11-12T10:52:21.441Z"
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "1834a67b-482d-41cf-83a1-4442f509235e",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "FE4CC7012E",
+            "qr_code": "ticket_qr_codes/ticket_qr_FE4CC7012E.png",
+            "status": "used",
+            "transaction": 15,
+            "purchased_at": "2024-11-12T09:25:00.344Z",
+            "used_at": "2024-11-12T10:55:52.911Z"
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "2d87c1df-830d-4a27-a6ba-34a3fda09f60",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "9064C3A481",
+            "qr_code": "ticket_qr_codes/ticket_qr_9064C3A481.png",
+            "status": "used",
+            "transaction": 14,
+            "purchased_at": "2024-11-12T09:17:41.193Z",
+            "used_at": "2024-11-12T10:56:15.199Z"
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "0abb02d2-8cf5-4d1a-aa3f-26dedd84632a",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "D9BC529775",
+            "qr_code": "ticket_qr_codes/ticket_qr_D9BC529775.png",
+            "status": "used",
+            "transaction": 13,
+            "purchased_at": "2024-11-12T09:11:51.449Z",
+            "used_at": "2024-11-12T11:03:42.351Z"
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "6e707829-6a8d-4b05-b307-ea0dfab44884",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "A709E90621",
+            "qr_code": "ticket_qr_codes/ticket_qr_A709E90621.png",
+            "status": "used",
+            "transaction": 12,
+            "purchased_at": "2024-11-12T09:11:02.852Z",
+            "used_at": "2024-11-12T11:03:51.661Z"
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "cb974c5b-9752-4a2e-920e-8adaab6cd73b",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "705E88D724",
+            "qr_code": "ticket_qr_codes/ticket_qr_705E88D724.png",
+            "status": "active",
+            "transaction": 11,
+            "purchased_at": "2024-11-12T09:05:45.927Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "1a9132d1-df15-4282-9c38-5ff0059fa73e",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "AA0A965135",
+            "qr_code": "ticket_qr_codes/ticket_qr_AA0A965135.png",
+            "status": "active",
+            "transaction": 10,
+            "purchased_at": "2024-11-12T09:01:20.241Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "073abe04-0f8a-41ee-9dd3-bfa45d5a98a8",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "13C41431F7",
+            "qr_code": "ticket_qr_codes/ticket_qr_13C41431F7.png",
+            "status": "active",
+            "transaction": 9,
+            "purchased_at": "2024-11-12T08:59:39.241Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "f3ca1e17-302f-42b0-8203-632cd44fb95b",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "EC3BCAA980",
+            "qr_code": "ticket_qr_codes/ticket_qr_EC3BCAA980.png",
+            "status": "active",
+            "transaction": 8,
+            "purchased_at": "2024-11-12T08:52:55.192Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "8b213c3e-9720-4706-9804-97c0ea7055e2",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "61298BB271",
+            "qr_code": "ticket_qr_codes/ticket_qr_61298BB271.png",
+            "status": "active",
+            "transaction": 7,
+            "purchased_at": "2024-11-12T08:50:19.838Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "340b8968-69bf-4cc3-a1ca-a99716b24dd8",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "FB0A9E505E",
+            "qr_code": "ticket_qr_codes/ticket_qr_FB0A9E505E.png",
+            "status": "active",
+            "transaction": 6,
+            "purchased_at": "2024-11-12T08:47:02.485Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "8eb65e1d-0858-4ee2-89e1-ac575bbf2a8c",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "6B0CDD2288",
+            "qr_code": "ticket_qr_codes/ticket_qr_6B0CDD2288.png",
+            "status": "active",
+            "transaction": 5,
+            "purchased_at": "2024-11-12T08:39:22.061Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "b141840b-fb05-4e5c-bc98-5606021ae7c8",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "BD0FAE349C",
+            "qr_code": "ticket_qr_codes/ticket_qr_BD0FAE349C.png",
+            "status": "active",
+            "transaction": 4,
+            "purchased_at": "2024-11-12T08:35:40.966Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "29ec72bc-71e5-415f-9efd-c6b9f9092e4b",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "231F6DCE01",
+            "qr_code": "ticket_qr_codes/ticket_qr_231F6DCE01.png",
+            "status": "active",
+            "transaction": 4,
+            "purchased_at": "2024-11-12T08:35:40.954Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "acd6ca6a-e789-43a2-85a6-22f722b74dad",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "22B520F577",
+            "qr_code": "ticket_qr_codes/ticket_qr_22B520F577.png",
+            "status": "active",
+            "transaction": 4,
+            "purchased_at": "2024-11-12T08:35:40.942Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "022bfa5f-9859-4db9-8657-0a2d8153aaf8",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "DBAA556CD7",
+            "qr_code": "ticket_qr_codes/ticket_qr_DBAA556CD7.png",
+            "status": "active",
+            "transaction": 4,
+            "purchased_at": "2024-11-12T08:35:40.932Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "5ef51f2b-1703-4308-bfda-84b950dc83fe",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "8177CF7083",
+            "qr_code": "ticket_qr_codes/ticket_qr_8177CF7083.png",
+            "status": "active",
+            "transaction": 4,
+            "purchased_at": "2024-11-12T08:35:40.920Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "541e7489-e48e-4e05-ad1c-03a2d04f6acc",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "B3EDE1E1BB",
+            "qr_code": "ticket_qr_codes/ticket_qr_B3EDE1E1BB.png",
+            "status": "active",
+            "transaction": 3,
+            "purchased_at": "2024-11-12T08:34:05.587Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "bf688da5-a465-4dc7-becb-6c9a272e4216",
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "8F0F167B66",
+            "qr_code": "ticket_qr_codes/ticket_qr_8F0F167B66.png",
+            "status": "active",
+            "transaction": 3,
+            "purchased_at": "2024-11-12T08:34:05.577Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.ticket",
+        "pk": "1f174acb-45a4-4dd0-b0fe-f478576ee621",
+        "fields": {
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "ticket_type": "d3733b8f-d156-44af-9908-d41592c65d80",
+            "unique_ticket_code": "D7710E0DFB",
+            "qr_code": "ticket_qr_codes/ticket_qr_D7710E0DFB.png",
+            "status": "active",
+            "transaction": 2,
+            "purchased_at": "2024-11-12T06:29:56.966Z",
+            "used_at": null
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 1,
+        "fields": {
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "amount": "10.00",
+            "token": "cs_test_a1Rjr8t5jFnY97KRMIePTKB6yEote7lJ4Q1FgiaebbrxfHjuL6tMBc6qns",
+            "idx": "pi_3QKDYvFtSfSJnwea0OKNTUUi",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T06:26:56.841Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 2,
+        "fields": {
+            "user": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+            "amount": "10.00",
+            "token": "cs_test_a1u6GcsysWDRNUNwkWy77jKNeI4HHYbWlWEaj137mLmcdBoDzddbOw1PK6",
+            "idx": "pi_3QKDbpFtSfSJnwea12wmExsx",
+            "payment_status": "failed",
+            "created_at": "2024-11-12T06:29:56.913Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 3,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "20.00",
+            "token": "cs_test_b1rk9oQwp8Vo3gMtVDiPFKqMtCcomwZEi0QZxXvE6h7BVhVbVtv2a4SEr6",
+            "idx": "pi_3QKFXxFtSfSJnwea0nZ3V0yT",
+            "payment_status": "failed",
+            "created_at": "2024-11-12T08:34:05.543Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 4,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "50.00",
+            "token": "cs_test_a1v8cyXwMNCCuN4wnMNWDBhk5xeqZHUDXPFZ16939yGeJ4b1OatVUvUnG7",
+            "idx": "pi_3QKFZUFtSfSJnwea0d7BqnNb",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T08:35:40.813Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 5,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1hkSwYU0BexwONhpFZHLkHpxZqoS4Rb1OddKws2Tg7V9Vw78rSTIb922q",
+            "idx": "pi_3QKFd4FtSfSJnwea073RSIGM",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T08:39:22.050Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 6,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1WUzfREiMNvkGbGFPO2pB5HlhzYI0cHk3wOlSZSMOdNAZAloO6mOQ9eWw",
+            "idx": "pi_3QKFkUFtSfSJnwea1KkNmKZX",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T08:47:02.450Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 7,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1ytROzidrML1B89ziUps62CTsRrDNpUSAFN0dXb6lVYIfv6sjOnwIl6wW",
+            "idx": "pi_3QKFnfFtSfSJnwea0SaFVZop",
+            "payment_status": "failed",
+            "created_at": "2024-11-12T08:50:19.824Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 8,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1d7EqpaRX92bImKg6Ca1rdty2BZSf40dOhISlmqsSLJNkgdRTVBfrGMRi",
+            "idx": "pi_3QKFqBFtSfSJnwea11ivLqYH",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T08:52:55.163Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 9,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1b9DoUIewNoSA17Px2UMNTHWoFgA6gjCLQv6XOjF88aCDYocYj9QvaOsN",
+            "idx": "pi_3QKFwgFtSfSJnwea1nRnuiLI",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T08:59:39.112Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 10,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1ZF6yWIEqZD3eDRh1eO9lAIhrh4HOI21qzw1yK0S72WdRWCjLbv728vTB",
+            "idx": "pi_3QKFyJFtSfSJnwea0KoLd2x4",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T09:01:20.227Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 11,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1c4Smut4reXgHPuvbsfxa3mfd0Zl4cnczwhAy390IKzgzycihZogpbHpL",
+            "idx": "pi_3QKG2bFtSfSJnwea1oRHUarj",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T09:05:45.913Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 12,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1ZRIGo26S5j4NSkHNkuJIRFOtzKg2xWz8Bu4pHuCy3OT6g7qFFkMsCJWL",
+            "idx": "pi_3QKG7iFtSfSJnwea0WrTnXkr",
+            "payment_status": "failed",
+            "created_at": "2024-11-12T09:11:02.749Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 13,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1MxnCJ82bctR5s1eWbnMAG6It8ZLA3AUgGAg0ZdgAjNSqyOZg67BrmZqX",
+            "idx": "pi_3QKG8VFtSfSJnwea0MkPmUxq",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T09:11:51.315Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 14,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1QubI2gKx4u5XeNhdJS8ExQ7qQ8n3YyqTr7DpuplUZ7EkGvmT1vVWGvNk",
+            "idx": "pi_3QKGE9FtSfSJnwea0yhVwYe8",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T09:17:41.158Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 15,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1azJf1xuGfmpXXELZExaXIIXThA0GE5vXubQWdI6uT8OS5YAg6TtsCC02",
+            "idx": "pi_3QKGLEFtSfSJnwea1Jml706B",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T09:25:00.297Z"
+        }
+    },
+    {
+        "model": "tickets.transaction",
+        "pk": 16,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "amount": "10.00",
+            "token": "cs_test_a1KWq3kE42qym1QipQcopuwlJlm5exnIViGTArh97OCPeeq8mO4MjvLGXY",
+            "idx": "pi_3QKGQ1FtSfSJnwea0XL3U1AA",
+            "payment_status": "completed",
+            "created_at": "2024-11-12T09:29:57.555Z"
+        }
+    },
+    {
+        "model": "authentication.customuser",
+        "pk": "d82b1550-85ea-499a-841e-ec260106b30b",
+        "fields": {
+            "password": "pbkdf2_sha256$870000$WU8LAc6Bok0szxMHwaaLbZ$hdC4j+XWcsDI6oSyz80uVJ+SmwS3jhcky9Gt5dCPzIY=",
+            "is_superuser": false,
+            "email": "sajanac46@gmail.com",
+            "first_name": "Sajan",
+            "last_name": "Adhikari",
+            "username": "",
+            "phone_number": null,
+            "is_staff": false,
+            "is_active": true,
+            "is_verified": true,
+            "date_joined": "2024-11-12T08:21:52Z",
+            "last_login": "2024-11-12T08:33:22.680Z",
+            "profile_picture": "",
+            "linkedin_profile": null,
+            "github_profile": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "authentication.customuser",
+        "pk": "3c616872-e5c9-46d0-8059-a83c05e0bdd4",
+        "fields": {
+            "password": "pbkdf2_sha256$870000$9PRbtnvAGsourvcWL5cklv$VKJPpggGi0/WooLMqE0YCrs3ACElF9UdysuuKy32p5M=",
+            "is_superuser": true,
+            "email": "admin@gmail.com",
+            "first_name": "admin",
+            "last_name": "",
+            "username": "",
+            "phone_number": null,
+            "is_staff": true,
+            "is_active": true,
+            "is_verified": false,
+            "date_joined": "2024-11-03T15:07:44.814Z",
+            "last_login": "2024-11-12T10:20:11.170Z",
+            "profile_picture": "",
+            "linkedin_profile": null,
+            "github_profile": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "authentication.otp",
+        "pk": 1,
+        "fields": {
+            "user": "d82b1550-85ea-499a-841e-ec260106b30b",
+            "otp": "526965",
+            "created_at": "2024-11-12T08:21:53.216Z",
+            "expires_at": "2024-11-12T08:31:53.216Z"
+        }
+    }
+]

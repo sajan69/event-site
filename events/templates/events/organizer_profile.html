@@ -7,7 +7,9 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card">
+                {% if organizer.profile_picture %}
                 <img src="{{ organizer.profile_picture.url }}" class="card-img-top" alt="{{ organizer.name }}">
+                {% endif %}
                 <div class="card-body">
                     <h1 class="card-title">{{ organizer.name }}</h1>
                     <p class="card-text">{{ organizer.bio }}</p>
@@ -34,7 +36,13 @@
             <div class="card mb-4">
                 <div class="row no-gutters">
                     <div class="col-md-4">
+                        {% if event.poster %}
                         <img src="{{ event.poster.url }}" class="card-img" alt="{{ event.title }}">
+                        {% else %}
+                        <div class="card-img bg-secondary text-white d-flex align-items-center justify-content-center">
+                            <span>No Image Available</span>
+                            </div>
+                            {% endif %}
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

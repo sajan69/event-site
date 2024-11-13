@@ -1,146 +1,222 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <div class="container py-5">
-    <h1 class="mb-4">Checkout</h1>
-    {% if cart_tickets %}
+  <h1 class="mb-4">Checkout</h1>
+  {% if cart_tickets %}
+  <form method="post" action="{% url 'tickets:update_cart' %}">
     {% csrf_token %}
     <div class="row">
-        <div class="col-md-8">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Your Tickets</h5>
-                    <ul class="list-unstyled">
-                        {% for ticket in cart_tickets %}
-                        <li class="mb-2">
-                            {{ ticket.ticket_type.name }} - {{ ticket.ticket_type.event.title }}
-                            <br>
-                            Quantity: {{ ticket.quantity }} x ${{ ticket.ticket_type.price }}
-                        </li>
-                        {% endfor %}
-                    </ul>
+      <div class="col-md-8">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Your Tickets</h5>
+            <ul class="list-group list-group-flush">
+              {% for ticket in cart_tickets %}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <h6 class="my-0">{{ ticket.ticket_type.name }}</h6>
+                  <small class="text-muted"
+                    >{{ ticket.ticket_type.event.title }}</small
+                  >
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Order Summary</h5>
-                    <ul class="list-unstyled">
-                        {% for ticket in cart_tickets %}
-                        <li class="mb-2">
-                            {{ ticket.ticket_type.name }} ${{ ticket.subtotal }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <strong>Total:</strong>
-                        <strong id="total-price">${{ total_price }}</strong>
+                <div class="d-flex align-items-center">
+                  <span class="text-muted mr-3"
+                    >${{ ticket.ticket_type.price }}</span
+                  >
+                  <form
+                    method="post"
+                    action="{% url 'tickets:update_cart' %}"
+                    class="d-flex align-items-center"
+                  >
+                    {% csrf_token %}
+                    <div
+                      class="btn-group btn-group-sm"
+                      role="group"
+                      aria-label="Ticket quantity"
+                    >
+                      <button
+                        type="submit"
+                        name="action"
+                        value="subtract"
+                        class="btn btn-outline-secondary"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <span class="btn btn-outline-secondary disabled"
+                        >{{ ticket.quantity }}</span
+                      >
+                      <button
+                        type="submit"
+                        name="action"
+                        value="add"
+                        class="btn btn-outline-secondary"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
                     </div>
-                    {% if request.user.is_authenticated %}
-                    <button type="button" id="pay-with-stripe" class="btn btn-primary btn-block mt-3">
-                        Pay with Stripe
+                    <button
+                      type="submit"
+                      name="action"
+                      value="delete"
+                      class="btn btn-link text-danger ml-3"
+                    >
+                      <i class="fas fa-trash"></i>
                     </button>
-                    {% else %}
-                    <a href="{% url 'authentication:login' %}?next={{ request.path }}" class="btn btn-primary btn-block mt-3">
-                        Login to Checkout
-                    </a>
-                    {% endif %}
+                    <input
+                      type="hidden"
+                      name="ticket_type_id"
+                      value="{{ ticket.ticket_type.id }}"
+                    />
+                  </form>
                 </div>
-            </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Order Summary</h5>
+            <ul class="list-unstyled">
+              {% for ticket in cart_tickets %}
+              <li
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <span
+                  >{{ ticket.ticket_type.name }}
+                  <small class="text-muted"
+                    >(x{{ ticket.quantity }})</small
+                  ></span
+                >
+                <span>${{ ticket.subtotal }}</span>
+              </li>
+              {% endfor %}
+            </ul>
+            <hr />
+            <div class="d-flex justify-content-between align-items-center">
+              <strong>Total:</strong>
+              <strong id="total-price">${{ total_price }}</strong>
+            </div>
+            {% if request.user.is_authenticated %}
+            <button
+              type="button"
+              id="pay-with-stripe"
+              class="btn btn-primary btn-block mt-4"
+            >
+              <i class="fab fa-stripe mr-2"></i>Pay with Stripe
+            </button>
+            {% else %}
+            <a
+              href="{% url 'authentication:login' %}?next={{ request.path }}"
+              class="btn btn-primary btn-block mt-4"
+            >
+              <i class="fas fa-sign-in-alt mr-2"></i>Login to Checkout
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
-    {% else %}
-    <div class="alert alert-info">
-        Your cart is empty. <a href="{% url 'events:search' %}">Browse events</a>
-    </div>
-    {% endif %}
+  </form>
+  {% else %}
+  <div class="alert alert-info">
+    Your cart is empty.
+    <a href="{% url 'events:search' %}" class="alert-link">Browse events</a>
+  </div>
+  {% endif %}
 </div>
 
 <!-- Modern loading overlay -->
-<div id="payment-overlay" class="position-fixed top-0 start-0 w-100 h-100 d-none" 
-     style="background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1050;">
-    <div class="position-absolute top-50 start-50 translate-middle text-center" style="width: 80%; max-width: 400px;">
-        <div class="card bg-dark text-white border-0">
-            <div class="card-body">
-                <h5 class="mb-4">Processing Your Payment</h5>
-                <div class="progress mb-3" style="height: 4px;">
-                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" 
-                         role="progressbar" style="width: 0%"></div>
-                </div>
-                <div id="status-message" class="text-muted small">Initializing payment...</div>
-            </div>
-        </div>
+<div
+  id="payment-overlay"
+  class="position-fixed top-0 start-0 w-100 h-100 d-none"
+  style="
+    backdrop-filter: blur(5px);
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  "
+>
+  <div
+    class="card bg-dark text-white border-0"
+    style="width: 80%; max-width: 400px"
+  >
+    <div class="card-body">
+      <h5 class="mb-4">Processing Your Payment</h5>
+      <div class="progress mb-3" style="height: 4px">
+        <div
+          id="progress-bar"
+          class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+          role="progressbar"
+          style="width: 0%"
+        ></div>
+      </div>
+      <div id="status-message" class="text-muted small">
+        Initializing payment...
+      </div>
     </div>
+  </div>
 </div>
 
-<style>
-.progress-bar-animated {
-    animation: progress-bar-stripes 1s linear infinite;
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-#payment-overlay {
-    animation: fadeIn 0.3s ease-out;
-}
-</style>
-
 <script>
-document.getElementById('pay-with-stripe').addEventListener('click', async function() {
-    const overlay = document.getElementById('payment-overlay');
-    const progressBar = document.getElementById('progress-bar');
-    const statusMessage = document.getElementById('status-message');
-    
-    try {
-        // Show overlay with animation
-        overlay.classList.remove('d-none');
-        
-        // Animate progress bar
-        progressBar.style.width = '15%';
-        statusMessage.textContent = 'Initializing payment...';
-        
-        // Initiate payment
+  document
+    .getElementById("pay-with-stripe")
+    .addEventListener("click", async function () {
+      const overlay = document.getElementById("payment-overlay");
+      const progressBar = document.getElementById("progress-bar");
+      const statusMessage = document.getElementById("status-message");
+
+      try {
+        overlay.classList.remove("d-none");
+        progressBar.style.width = "15%";
+        statusMessage.textContent = "Initializing payment...";
+
         const response = await fetch("{% url 'tickets:initiate_payment' %}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-            }
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]")
+              .value,
+          },
         });
-        
-        progressBar.style.width = '60%';
-        statusMessage.textContent = 'Payment session created...';
-        
+
+        progressBar.style.width = "60%";
+        statusMessage.textContent = "Payment session created...";
+
         const data = await response.json();
-        
-        if (data.status === 'success') {
-            progressBar.style.width = '100%';
-            statusMessage.textContent = 'Redirecting to secure payment...';
-            
-            // Small delay for smooth transition
-            setTimeout(() => {
-                window.location.href = data.payment_url;
-            }, 500);
+
+        if (data.status === "success") {
+          progressBar.style.width = "100%";
+          statusMessage.textContent = "Redirecting to secure payment...";
+
+          setTimeout(() => {
+            window.location.href = data.payment_url;
+          }, 500);
         } else {
-            throw new Error(data.message || 'Payment initialization failed');
+          throw new Error(data.message || "Payment initialization failed");
         }
-    } catch (error) {
-        console.error('Payment error:', error);
-        statusMessage.textContent = 'Error: ' + (error.message || 'Please try again');
-        progressBar.classList.remove('bg-primary');
-        progressBar.classList.add('bg-danger');
-        
-        // Reset and hide overlay after error
+      } catch (error) {
+        console.error("Payment error:", error);
+        statusMessage.textContent =
+          "Error: " + (error.message || "Please try again");
+        progressBar.classList.remove("bg-primary");
+        progressBar.classList.add("bg-danger");
+
         setTimeout(() => {
-            overlay.classList.add('d-none');
-            progressBar.style.width = '0%';
-            progressBar.classList.remove('bg-danger');
-            progressBar.classList.add('bg-primary');
+          overlay.classList.add("d-none");
+          progressBar.style.width = "0%";
+          progressBar.classList.remove("bg-danger");
+          progressBar.classList.add("bg-primary");
         }, 3000);
-    }
-});
+      }
+    });
 </script>
 {% endblock %}

@@ -65,7 +65,15 @@ class EventOrganizer(models.Model):
     class Meta:
         verbose_name_plural = "Event Organizers"
         
+class EventTag(models.Model):
+    """
+    Tags for events to provide additional categorization
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=50, unique=True)
 
+    def __str__(self):
+        return self.name
 class Event(models.Model):
     """
     Comprehensive Event Model
@@ -90,6 +98,13 @@ class Event(models.Model):
         on_delete=models.SET_NULL, 
         related_name='events', 
         null=True
+    )
+
+    # Event Tag
+    tags = models.ManyToManyField(
+        EventTag, 
+        related_name='events', 
+        blank=True
     )
     
     # Event Timing
@@ -137,8 +152,16 @@ class Event(models.Model):
     
     def save(self, *args, **kwargs):
         """
-        Automatically generate slug if not provided
+        Automatically generate slug if not provided and handle featured event notifications
         """
+        is_new = self.pk is None
+        was_featured = False
+        
+        if not is_new:
+            old_instance = Event.objects.get(pk=self.pk)
+            was_featured = old_instance.is_featured
+        
+        # Generate slug if not provided
         if not self.slug:
             self.slug = slugify(self.title)
         
@@ -148,6 +171,13 @@ class Event(models.Model):
                 self.start_datetime, self.end_datetime = self.end_datetime, self.start_datetime
         
         super().save(*args, **kwargs)
+        
+        # Send email if event becomes featured
+        if self.is_featured and not was_featured:
+            from tickets.utils import send_featured_event_email
+            ticket_types = self.ticket_types.all()
+            send_featured_event_email(self, ticket_types)
+
 
     def __str__(self):
         return self.title
@@ -159,13 +189,71 @@ class Event(models.Model):
             models.Index(fields=['slug'])
         ]
 
-class EventTag(models.Model):
+class GlobalSettings(models.Model):
     """
-    Tags for events to provide additional categorization
+    Global settings for the website including site information and social media links
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=50, unique=True)
-    events = models.ManyToManyField(Event, related_name='tags', blank=True)
+    # Site Information
+    site_name = models.CharField(max_length=100, default="EventMaster")
+    site_logo = models.ImageField(upload_to='site/', null=True, blank=True)
+    
+    # Social Media Links
+    facebook_url = models.URLField(blank=True)
+    twitter_url = models.URLField(blank=True)
+    instagram_url = models.URLField(blank=True)
+    linkedin_url = models.URLField(blank=True)
+    
+    # Contact Information
+    contact_email = models.EmailField(blank=True)
+    contact_phone = models.CharField(max_length=20, blank=True)
+
+    class Meta:
+        verbose_name = "Global Settings"
+        verbose_name_plural = "Global Settings"
 
     def __str__(self):
-        return self.name
+        return self.site_name
+
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists
+        if not self.pk and GlobalSettings.objects.exists():
+            return
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+from django.core.signing import Signer
+
+class NewsletterSubscriber(models.Model):
+    """
+    Model to store newsletter subscribers
+    """
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    last_sent_at = models.DateTimeField(null=True, blank=True)
+
+    def get_unsubscribe_token(self):
+        """Generate a secure token for unsubscribe link"""
+        signer = Signer()
+        return signer.sign(self.email)
+
+    def verify_unsubscribe_token(self, token):
+        """Verify the unsubscribe token"""
+        signer = Signer()
+        try:
+            email = signer.unsign(token)
+            return email == self.email
+        except:
+            return False
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = "Newsletter Subscriber"
+        verbose_name_plural = "Newsletter Subscribers"
+        ordering = ['-subscribed_at']

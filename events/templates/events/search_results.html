@@ -4,7 +4,25 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+    {% load custom_filters %}
+
+    <h2 class="mb-4">
+        Search Results 
+        {% if selected_category or selected_tags or selected_date_range or query %}
+        {% if query %}
+        for "{{ query }}" 
+        {% endif %}
+        {% if selected_category %}
+            in category "{{ selected_category|get_item }}"{% if selected_tags or selected_date_range %}, {% endif %}
+        {% endif %}
+        {% if selected_tags %}
+            with tags "{{ selected_tags_names|join:', ' }}"{% if selected_date_range %}, {% endif %}
+        {% endif %}
+        {% if selected_date_range %}
+            within the date range "{{ selected_date_range }}"
+        {% endif %}
+    {% endif %}
+    </h2>
 
     <div class="row">
         <div class="col-md-3">
@@ -25,16 +43,16 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="tag">Tag</label>
-                            <select name="tag" id="tag" class="form-control">
-                                <option value="">All Tags</option>
+                            <label for="tag">Tags</label>
+                            <select name="tag" id="tag" class="form-control" multiple>
                                 {% for tag in tags %}
-                                    <option value="{{ tag.id }}" {% if tag.id|stringformat:"s" == selected_tag %}selected{% endif %}>
+                                    <option value="{{ tag.id }}" {% if tag.id|stringformat:"s" in selected_tags %}selected{% endif %}>
                                         {{ tag.name }}
                                     </option>
                                 {% endfor %}
                             </select>
                         </div>
+                
                         <div class="form-group">
                             <label for="date_range">Date Range</label>
                             <select name="date_range" id="date_range" class="form-control">
@@ -122,12 +140,14 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
-        $('#category, #tag, #date_range').change(function() {
-            $(this).closest('form').submit();
+        // Initialize Select2 for the tag select element
+        $('#tag').select2({
+            placeholder: "Select tags",
+            allowClear: true
         });
     });
 </script>
+
 {% endblock %}

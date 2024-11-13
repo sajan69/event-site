@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}403 Forbidden - EventMaster{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-1 text-danger mb-4">403</h1>
+            <h2 class="mb-4">Access Forbidden</h2>
+            <p class="lead mb-5">Oops! It seems you don't have permission to access this page. Don't worry, there are plenty of other exciting events to explore!</p>
+            <img src="{% static 'img/403.svg' %}" alt="403 Error" class="img-fluid mb-4" style="max-width: 300px;">
+            <div>
+                <a href="{% url 'events:home' %}" class="btn btn-primary btn-lg mr-3">
+                    <i class="fas fa-home mr-2"></i>Return to Homepage
+                </a>
+                <a href="{% url 'events:search' %}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-search mr-2"></i>Explore Events
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

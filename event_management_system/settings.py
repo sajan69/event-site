@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'authentication',
     'cloudinary',
     'cloudinary_storage',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -55,12 +56,19 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'events.context_processors.global_settings',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'event_management_system.wsgi.application'
+
+LOGIN_REDIRECT_URL = 'events:home'
+LOGOUT_REDIRECT_URL = 'authentication:login'
+
+LOGIN_URL = 'authentication:login'
+
 
 # Database configuration (PostgreSQL for production, SQLite for development)
 if DEBUG:

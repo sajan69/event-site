@@ -30,7 +30,7 @@
                     <ul class="list-unstyled">
                         <li><i class="far fa-calendar-alt mr-2"></i> <strong>Date:</strong> {{ event.start_datetime|date:"F d, Y" }} - {{ event.end_datetime|date:"F d, Y" }}</li>
                         <li><i class="far fa-clock mr-2"></i> <strong>Time:</strong> {{ event.start_datetime|date:"g:i A" }} - {{ event.end_datetime|date:"g:i A" }}</li>
-                        <li><i class="fas fa-map-marker-alt mr-2"></i> <strong>Venue:</strong> {{ event.venue_name }}, {{ event.city }}, {{ event.country }}</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> <strong>Venue:</strong> {{ event.venue_name }}, {{ event.address }}, {{ event.city }}</li>
                         <li><i class="fas fa-tag mr-2"></i> <strong>Category:</strong> {{ event.category.name }}</li>
                         <li><i class="fas fa-user mr-2"></i> <strong>Organizer:</strong> {{ event.organizer.name }}</li>
                     </ul>

@@ -23,6 +23,16 @@ graph TD
     L[Scanner App] -->|QR Validation| J
 
 ```
+```mermaid
+graph TD
+    A[User Initiates Payment] --> B[Stripe Payment]
+    B --> C[verify_payment]
+    C --> D[Create Transaction]
+    D --> E[process_order]
+    E --> F[Create Tickets]
+    F --> G[Generate QR Codes]
+    G --> H[Update Quantities]
+```
 
 Now, let's create a class diagram to represent the core entities:
 

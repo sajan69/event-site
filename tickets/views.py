@@ -6,6 +6,44 @@ from .models import TicketType, Ticket, Transaction
 from django.contrib import messages
 from django.http import JsonResponse
 import json
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+import stripe
+from decimal import Decimal
+import time
+from django.conf import settings
+from django.http import JsonResponse
+from django.urls import reverse
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.views.generic import DetailView
+from django.core.files.storage import default_storage
+from django.template import Template, Context
+from django.utils.safestring import mark_safe
+from django.core.mail import EmailMultiAlternatives
+from django.core.files.storage import default_storage
+from django.template import Template, Context
+from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+import base64
+from email.mime.image import MIMEImage
+import uuid
+# views.py
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Ticket
+from django.utils import timezone
+
+import json
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 
 def add_to_cart(request, event_id):
@@ -15,33 +53,54 @@ def add_to_cart(request, event_id):
         
         # Initialize cart in session if it doesn't exist
         if 'cart' not in request.session:
-            request.session['cart'] = []
+            request.session['cart'] = {}
         
-        # Add ticket to cart
-        cart_item = {
-            'ticket_type_id': ticket_type_id,
-            'quantity': quantity
-        }
-        request.session['cart'].append(cart_item)
+        cart = request.session['cart']
+        
+        # Convert list to dictionary if necessary (for backward compatibility)
+        if isinstance(cart, list):
+            new_cart = {}
+            for item in cart:
+                new_cart[str(item['ticket_type_id'])] = new_cart.get(str(item['ticket_type_id']), 0) + item['quantity']
+            cart = new_cart
+        
+        # Add or update ticket quantity in cart
+        cart[ticket_type_id] = cart.get(ticket_type_id, 0) + quantity
+        
+        request.session['cart'] = cart
         request.session.modified = True
+        
+        # Calculate total items in cart
+        total_items = sum(cart.values())
         
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 'status': 'success',
-                'cart_count': len(request.session['cart'])
+                'message': 'Item added to cart',
+                'cart_count': total_items
             })
+        
         return redirect('tickets:checkout')
     
     return redirect('events:detail', event_id=event_id)
 
+@login_required
 def checkout(request):
-    cart = request.session.get('cart', [])
+    cart = request.session.get('cart', {})
     cart_tickets = []
     total_price = 0
     
-    for item in cart:
-        ticket_type = TicketType.objects.get(id=item['ticket_type_id'])
-        quantity = item['quantity']
+    # Convert list to dictionary if necessary
+    if isinstance(cart, list):
+        new_cart = {}
+        for item in cart:
+            ticket_type_id = str(item['ticket_type_id'])
+            new_cart[ticket_type_id] = new_cart.get(ticket_type_id, 0) + item['quantity']
+        cart = new_cart
+        request.session['cart'] = cart
+    
+    for ticket_type_id, quantity in cart.items():
+        ticket_type = TicketType.objects.get(id=ticket_type_id)
         subtotal = ticket_type.price * quantity
         total_price += subtotal
         
@@ -56,33 +115,35 @@ def checkout(request):
         'total_price': total_price
     })
 
-def confirm_checkout(request):
-    if request.method == 'POST':
-        cart_tickets = request.POST.getlist('cart_tickets')  # Assuming cart_tickets is passed as a list
-        for ticket_info in cart_tickets:
-            ticket_type_id, quantity = ticket_info.split(':')  # Assuming format is 'ticket_type_id:quantity'
-            ticket_type = TicketType.objects.get(id=ticket_type_id)
-            for _ in range(int(quantity)):
-                ticket = Ticket(ticket_type=ticket_type, user=request.user)  # Assuming user is logged in
-                ticket.save()
-                ticket_type.save()  # Save the updated ticket type
-
-        messages.success(request, "Your purchase has been confirmed!")
-        return redirect('events:home')
+@require_POST
+def update_cart(request):
+    action = request.POST.get('action')
+    ticket_type_id = request.POST.get('ticket_type_id')
+    
+    cart = request.session.get('cart', {})
+    
+    # Convert list to dictionary if necessary
+    if isinstance(cart, list):
+        new_cart = {}
+        for item in cart:
+            new_cart[str(item['ticket_type_id'])] = new_cart.get(str(item['ticket_type_id']), 0) + item['quantity']
+        cart = new_cart
+    
+    if action == 'add':
+        cart[ticket_type_id] = cart.get(ticket_type_id, 0) + 1
+    elif action == 'subtract':
+        if cart.get(ticket_type_id, 0) > 1:
+            cart[ticket_type_id] -= 1
+        else:
+            cart.pop(ticket_type_id, None)
+    elif action == 'delete':
+        cart.pop(ticket_type_id, None)
+    
+    request.session['cart'] = cart
+    request.session.modified = True
+    
     return redirect('tickets:checkout')
-# views.py
-import stripe
-from decimal import Decimal
-import time
-from django.conf import settings
-from django.http import JsonResponse
-from django.urls import reverse
-from django.contrib import messages
-from django.shortcuts import redirect
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.views.generic import DetailView
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -99,24 +160,30 @@ def initiate_stripe_payment(request):
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
         
     try:
-        cart = request.session.get('cart', [])
+        cart = request.session.get('cart', {})  # Get cart as dictionary
         if not cart:
             return JsonResponse({'status': 'error', 'message': 'Cart is empty'}, status=400)
             
         # Create line items for Stripe
         line_items = []
-        for item in cart:
-            ticket_type = TicketType.objects.get(id=item['ticket_type_id'])
-            line_items.append({
-                'price_data': {
-                    'currency': 'usd',
-                    'unit_amount': int(ticket_type.price * 100),  # Convert to cents
-                    'product_data': {
-                        'name': f"{ticket_type.event.title} - {ticket_type.name}",
+        for ticket_type_id, quantity in cart.items():
+            try:
+                ticket_type = TicketType.objects.get(id=ticket_type_id)
+                line_items.append({
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': int(ticket_type.price * 100),  # Convert to cents
+                        'product_data': {
+                            'name': f"{ticket_type.event.title} - {ticket_type.name}",
+                        },
                     },
-                },
-                'quantity': item['quantity'],
-            })
+                    'quantity': quantity,
+                })
+            except TicketType.DoesNotExist:
+                continue
+
+        if not line_items:
+            return JsonResponse({'status': 'error', 'message': 'No valid tickets in cart'}, status=400)
 
         # Create Stripe checkout session
         checkout_session = stripe.checkout.Session.create(
@@ -142,11 +209,6 @@ def initiate_stripe_payment(request):
             'payment_url': checkout_session.url
         })
         
-    except TicketType.DoesNotExist:
-        return JsonResponse({
-            'status': 'error',
-            'message': 'Invalid ticket type'
-        }, status=400)
     except stripe.error.StripeError as e:
         return JsonResponse({
             'status': 'error',
@@ -157,52 +219,76 @@ def initiate_stripe_payment(request):
             'status': 'error',
             'message': str(e)
         }, status=500)
+from django.db import transaction
 
-def process_order(request, transaction):
+@transaction.atomic
+def process_order(request, transaction_obj):
     """Process the order after successful payment"""
-    cart = request.session.get('cart', [])
+    cart = request.session.get('cart', {})
     created_tickets = []
     
     try:
-        for item in cart:
-            ticket_type = TicketType.objects.get(id=item['ticket_type_id'])
-            quantity = item['quantity']
+        # Lock and validate all ticket types first
+        ticket_types = {}
+        for ticket_type_id, quantity in cart.items():
+            ticket_type = TicketType.objects.select_for_update().get(id=ticket_type_id)
             
-            # Create tickets
+            # Verify available quantity
+            if ticket_type.available_quantity < quantity:
+                raise ValueError(f"Insufficient tickets available for {ticket_type.name}")
+                
+            ticket_types[ticket_type_id] = ticket_type
+        
+        # Create tickets for each type
+        for ticket_type_id, quantity in cart.items():
+            ticket_type = ticket_types[ticket_type_id]
+            
             for _ in range(quantity):
-                ticket = Ticket.objects.create(
+                # Create ticket with minimal data first
+                ticket = Ticket(
                     ticket_type=ticket_type,
                     user=request.user,
-                    transaction=transaction
+                    transaction=transaction_obj,
+                    status='active'
                 )
+                
+                # Generate and verify unique code
+                max_attempts = 5
+                for attempt in range(max_attempts):
+                    unique_code = ticket.generate_unique_ticket_code()
+                    if not Ticket.objects.filter(unique_ticket_code=unique_code).exists():
+                        ticket.unique_ticket_code = unique_code
+                        break
+                    if attempt == max_attempts - 1:
+                        raise ValueError("Failed to generate unique ticket code")
+                
+                # Save ticket to generate ID
+                ticket.save()
+                
+                # Generate QR code
+                ticket.generate_qr_code()
+                ticket.save()
+                
                 created_tickets.append(ticket)
+                
+                # Update ticket type quantity
+                ticket_type.available_quantity -= 1
+                ticket_type.save()
         
-        # Clear the cart only after all tickets are created successfully
-        request.session['cart'] = []
+        # Verify all tickets were created
+        if len(created_tickets) != sum(cart.values()):
+            raise ValueError("Not all tickets were created successfully")
+        
+        # Clear cart
+        request.session['cart'] = {}
         request.session.modified = True
         
         return created_tickets
         
     except Exception as e:
-        # If there's an error, delete any tickets that were created
-        for ticket in created_tickets:
-            ticket.delete()
+        # The atomic transaction will roll back all database changes
         raise Exception(f"Failed to process order: {str(e)}")
-
-from django.core.files.storage import default_storage
-from django.template import Template, Context
-from django.utils.safestring import mark_safe
-from django.core.mail import EmailMultiAlternatives
-from django.core.files.storage import default_storage
-from django.template import Template, Context
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.utils.html import strip_tags
-import base64
-from email.mime.image import MIMEImage
-import uuid
-
+    
 def send_ticket_email(transaction):
     """Send email with ticket details and QR codes using CID attachments"""
     subject = f'Your Tickets for Order #{transaction.id}'
@@ -298,11 +384,17 @@ def verify_payment(request):
         return redirect('tickets:checkout')
     
     try:
+        # Retrieve the Stripe session
         checkout_session = stripe.checkout.Session.retrieve(session_id)
         
-        if checkout_session.payment_status == 'paid':
+        if checkout_session.payment_status != 'paid':
+            messages.error(request, "Payment was not completed successfully")
+            return redirect('tickets:checkout')
+            
+        # Start atomic transaction
+        with transaction.atomic():
             # Create transaction record
-            transaction = Transaction.objects.create(
+            transaction_obj = Transaction.objects.create(
                 user=request.user,
                 amount=Decimal(checkout_session.amount_total) / 100,
                 token=session_id,
@@ -311,33 +403,35 @@ def verify_payment(request):
             )
             
             try:
-                # Process the order
-                process_order(request, transaction)
+                created_tickets = process_order(request, transaction_obj)
+                
+                # Verify tickets and QR codes
+                for ticket in created_tickets:
+                    success, message = verify_qr_code_data(ticket)
+                    if not success:
+                        raise ValueError(f"QR code verification failed for ticket {ticket.unique_ticket_code}: {message}")
+                
+                # Clean up session
                 request.session.pop('stripe_session_id', None)
-                request.session['completed_transaction_token'] = transaction.token
+                request.session['completed_transaction_token'] = transaction_obj.token
                 
                 # Send confirmation email
-                send_ticket_email(transaction)
+                send_ticket_email(transaction_obj)
                 
                 messages.success(request, "Payment successful! Your tickets have been confirmed.")
-                return redirect('tickets:order_confirmation', token=transaction.token)
+                return redirect('tickets:order_confirmation', token=transaction_obj.token)
                 
             except Exception as process_error:
-                transaction.payment_status = 'failed'
-                transaction.save()
+                # Rollback will happen automatically due to atomic transaction
+                transaction_obj.payment_status = 'failed'
+                transaction_obj.save()
                 messages.error(request, str(process_error))
                 return redirect('tickets:checkout')
                 
-        else:
-            messages.error(request, f"Payment failed. Status: {checkout_session.payment_status}")
-            
-    except stripe.error.StripeError as e:
-        messages.error(request, f"Payment verification failed: {str(e)}")
     except Exception as e:
         messages.error(request, f"An error occurred: {str(e)}")
+        return redirect('tickets:checkout')
     
-    return redirect('tickets:checkout')
-
 class OrderConfirmationView(DetailView):
     template_name = 'tickets/order_confirmation.html'
     model = Transaction
@@ -355,31 +449,12 @@ class OrderConfirmationView(DetailView):
         return context
     
 
-# views.py
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from .models import Ticket
-from django.utils import timezone
-
-import json
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
-import logging
-
-logger = logging.getLogger(__name__)
-
 @login_required
 def verify_ticket(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            print(f'Received data: {data}')  # Log the received data
             ticket_code = data.get("ticket_code")
-            print(f'Received ticket code: {ticket_code}')  # Log the ticket code
-            logger.info(f"Received ticket code: {ticket_code}")  # Log the ticket code
-
             if not ticket_code:
                 return JsonResponse({"status": "error", "message": "No ticket code provided."})
 
@@ -395,7 +470,6 @@ def verify_ticket(request):
 
             return JsonResponse({"status": "success", "message": "Ticket is valid and has been marked as used."})
         except Exception as e:
-            logger.error(f"Error verifying ticket: {e}")
             return JsonResponse({"status": "error", "message": "An unexpected error occurred."}, status=500)
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
