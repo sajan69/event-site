@@ -158,8 +158,11 @@ class Event(models.Model):
         was_featured = False
         
         if not is_new:
-            old_instance = Event.objects.get(pk=self.pk)
-            was_featured = old_instance.is_featured
+            try:
+                old_instance = Event.objects.get(pk=self.pk)
+                was_featured = old_instance.is_featured
+            except Event.DoesNotExist:
+                pass
         
         # Generate slug if not provided
         if not self.slug:

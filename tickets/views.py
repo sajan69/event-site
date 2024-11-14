@@ -84,7 +84,6 @@ def add_to_cart(request, event_id):
     
     return redirect('events:detail', event_id=event_id)
 
-@login_required
 def checkout(request):
     cart = request.session.get('cart', {})
     cart_tickets = []
@@ -114,6 +113,8 @@ def checkout(request):
         'cart_tickets': cart_tickets,
         'total_price': total_price
     })
+
+
 
 @require_POST
 def update_cart(request):
@@ -220,6 +221,7 @@ def initiate_stripe_payment(request):
             'message': str(e)
         }, status=500)
 from django.db import transaction
+from django.contrib.admin.views.decorators import staff_member_required
 
 @transaction.atomic
 def process_order(request, transaction_obj):
@@ -448,8 +450,7 @@ class OrderConfirmationView(DetailView):
         context['tickets'] = transaction.tickets.all()
         return context
     
-
-@login_required
+@staff_member_required
 def verify_ticket(request):
     if request.method == "POST":
         try:
