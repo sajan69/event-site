@@ -156,3 +156,83 @@ Contributions are welcome! Please follow these steps:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Docker Setup
+
+This project is containerized using Docker for easy deployment and development.
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Development Setup
+
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd event-site
+   ```
+
+2. Build and start the containers:
+   ```
+   docker-compose up -d --build
+   ```
+
+3. Access the application at http://localhost:80
+
+### Production Deployment
+
+For production deployment, you should:
+
+1. Update the Nginx configuration with your domain name
+2. Set up SSL certificates using Let's Encrypt
+3. Update environment variables with production values
+
+Example production deployment:
+
+```bash
+# Set production environment variables
+export FLASK_ENV=production
+export SECRET_KEY=your-secure-secret-key
+
+# Build and deploy
+docker-compose -f docker-compose.yml up -d --build
+```
+
+### Container Management
+
+- Stop containers: `docker-compose down`
+- View logs: `docker-compose logs -f`
+- Access shell in web container: `docker-compose exec web bash`
+- Access database: `docker-compose exec db psql -U postgres -d eventmaster`
+
+## Project Structure
+
+- `/app` - Main application code
+- `/templates` - HTML templates
+- `/static` - Static files (CSS, JS, images)
+- `/nginx` - Nginx configuration files
+- `/media` - User-uploaded content
+
+## Database Migrations
+
+To run database migrations:
+
+```bash
+docker-compose exec web flask db upgrade
+```
+
+## Backup and Restore
+
+To backup the database:
+
+```bash
+docker-compose exec db pg_dump -U postgres eventmaster > backup.sql
+```
+
+To restore from backup:
+
+```bash
+cat backup.sql | docker-compose exec -T db psql -U postgres eventmaster
+```
