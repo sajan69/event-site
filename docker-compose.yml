@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./static:/app/static
+      - ./static:/app/staticfiles
       - ./media:/app/media
       - ./.env:/app/.env
     environment:
@@ -61,7 +61,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./static:/app/static
+      - ./static:/app/staticfiles
       - ./media:/app/media
       - ./nginx/certbot/conf:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
