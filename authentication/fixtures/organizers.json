@@ -1,0 +1,29 @@
+[
+    {
+        "name": "TechVibe Productions",
+        "bio": "Leading tech event organizer with over 10 years of experience",
+        "email": "contact@techvibe.com",
+        "phone": "+1-555-0123",
+        "website": "https://techvibe.com",
+        "profile_picture": "https://images.unsplash.com/photo-1560250097-0b93528c311a",
+        "slug": "techvibe-productions"
+    },
+    {
+        "name": "Melodic Masters",
+        "bio": "Premium music event organizers",
+        "email": "events@melodicmasters.com",
+        "phone": "+1-555-0124",
+        "website": "https://melodicmasters.com",
+        "profile_picture": "https://images.unsplash.com/photo-1549834193-4a5f6c2c4dad",
+        "slug": "melodic-masters"
+    },
+    {
+        "name": "Culinary Concepts",
+        "bio": "Specialized in food and culinary event management",
+        "email": "hello@culinaryconcepts.com",
+        "phone": "+1-555-0125",
+        "website": "https://culinaryconcepts.com",
+        "profile_picture": "https://images.unsplash.com/photo-1566554273541-37a9ca77b91f",
+        "slug": "culinary-concepts"
+    }
+] 

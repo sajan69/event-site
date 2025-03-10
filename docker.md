@@ -71,7 +71,7 @@ docker-compose -f docker-compose.yml up -d --build
 
 ### Database Migrations
 
-To run database migrations:
+To run database migrations:   
 
 ```bash
 docker-compose exec web python manage.py migrate

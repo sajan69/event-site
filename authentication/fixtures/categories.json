@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Music Concerts",
+        "icon": "music",
+        "description": "Live music performances across all genres",
+        "slug": "music-concerts"
+    },
+    {
+        "name": "Tech Conferences",
+        "icon": "laptop-code",
+        "description": "Technology and innovation conferences",
+        "slug": "tech-conferences"
+    },
+    {
+        "name": "Food Festivals",
+        "icon": "utensils",
+        "description": "Culinary experiences and food celebrations",
+        "slug": "food-festivals"
+    },
+    {
+        "name": "Sports Events",
+        "icon": "basketball-ball",
+        "description": "Sporting events and competitions",
+        "slug": "sports-events"
+    },
+    {
+        "name": "Art Exhibitions",
+        "icon": "palette",
+        "description": "Art shows and gallery exhibitions",
+        "slug": "art-exhibitions"
+    },
+    {
+        "name": "Business Seminars",
+        "icon": "briefcase",
+        "description": "Professional development and business networking events",
+        "slug": "business-seminars"
+    },
+    {
+        "name": "Educational Workshops",
+        "icon": "graduation-cap",
+        "description": "Learning and skill development sessions",
+        "slug": "educational-workshops"
+    },
+    {
+        "name": "Gaming Events",
+        "icon": "gamepad",
+        "description": "Gaming tournaments and conventions",
+        "slug": "gaming-events"
+    },
+    {
+        "name": "Film Screenings",
+        "icon": "film",
+        "description": "Movie premieres and film festivals",
+        "slug": "film-screenings"
+    },
+    {
+        "name": "Health & Wellness",
+        "icon": "heart",
+        "description": "Fitness classes and wellness workshops",
+        "slug": "health-wellness"
+    }
+] 

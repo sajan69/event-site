@@ -1,0 +1,56 @@
+[
+    {
+        "event": "TechCon 2024",
+        "name": "standard",
+        "description": "Standard conference access",
+        "price": "299.99",
+        "total_quantity": 700,
+        "available_quantity": 700,
+        "additional_perks": "Access to all general sessions and expo hall"
+    },
+    {
+        "event": "TechCon 2024",
+        "name": "vip",
+        "description": "VIP conference access",
+        "price": "599.99",
+        "total_quantity": 300,
+        "available_quantity": 300,
+        "additional_perks": "Priority seating, exclusive networking events, VIP lounge access"
+    },
+    {
+        "event": "Summer Music Festival",
+        "name": "standard",
+        "description": "General admission",
+        "price": "149.99",
+        "total_quantity": 4000,
+        "available_quantity": 4000,
+        "additional_perks": "Access to all stages"
+    },
+    {
+        "event": "Summer Music Festival",
+        "name": "vip",
+        "description": "VIP festival pass",
+        "price": "299.99",
+        "total_quantity": 1000,
+        "available_quantity": 1000,
+        "additional_perks": "VIP viewing areas, exclusive lounges, meet & greet opportunities"
+    },
+    {
+        "event": "Global Food Festival",
+        "name": "standard",
+        "description": "General admission",
+        "price": "49.99",
+        "total_quantity": 2500,
+        "available_quantity": 2500,
+        "additional_perks": "Access to all food stalls and general seating"
+    },
+    {
+        "event": "Global Food Festival",
+        "name": "premium",
+        "description": "Premium festival pass",
+        "price": "99.99",
+        "total_quantity": 500,
+        "available_quantity": 500,
+        "additional_perks": "Priority access, tasting sessions with chefs, cookbook"
+    }
+] 
