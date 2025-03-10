@@ -19,9 +19,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create media and static directories
+RUN mkdir -p /app/media /app/static
+
 # Copy project files
 COPY . .
 
-# Run gunicorn for production
+# Set permissions for media and static directories
+RUN chmod -R 755 /app/media /app/static
+
 # Run gunicorn for production
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "event_management_system.wsgi:application"]

@@ -7,14 +7,37 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./:/app
+      - ./static:/app/static
+      - ./media:/app/media
+      - ./.env:/app/.env
     environment:
-      - FLASK_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/eventmaster
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - KHALTI_PUBLIC_KEY=${KHALTI_PUBLIC_KEY}
+      - KHALTI_SECRET_KEY=${KHALTI_SECRET_KEY}
+      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - SITE_URL=${SITE_URL}
     depends_on:
       - db
     networks:
       - event-network
+    command: >
+      bash -c "python manage.py collectstatic --noinput &&
+               python manage.py migrate &&
+               gunicorn --bind 0.0.0.0:8000 event_management_system.wsgi:application"
 
   db:
     image: postgres:14
@@ -22,9 +45,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=eventmaster
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     networks:
@@ -49,6 +72,8 @@ services:
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
 
 networks:
   event-network:
