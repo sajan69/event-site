@@ -20,13 +20,13 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Create media and static directories
-RUN mkdir -p /app/media /app/staticfiles
+RUN mkdir -p /app/media /app/staticfiles /app/static
 
 # Copy project files
 COPY . .
 
 # Set permissions for media and static directories
-RUN chmod -R 755 /app/media /app/staticfiles
+RUN chmod -R 755 /app/media /app/staticfiles /app/static
 
 # Run gunicorn for production
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "event_management_system.wsgi:application"]

@@ -67,6 +67,27 @@ sudo certbot --nginx -d your-domain.com -d www.your-domain.com
 docker-compose -f docker-compose.yml up -d --build
 ```
 
+## Static Files Management
+
+The project uses two directories for static files:
+- `static/`: Used for development static files
+- `staticfiles/`: Used for production static files (collected by collectstatic)
+
+### Collect Static Files
+```bash
+docker-compose exec web python manage.py collectstatic --noinput
+```
+
+This command collects all static files from the `static/` directory and other installed apps into the `staticfiles/` directory, which is then served by Nginx in production.
+
+### Adding New Static Files
+1. For development, add static files to the `static/` directory
+2. For production, run `collectstatic` to copy them to `staticfiles/`
+
+## Media Files
+
+Media files (user uploads) are stored in the `media/` directory and served by Nginx. Files uploaded through the application will be stored here.
+
 ## Database Management
 
 ### Run Migrations
@@ -133,16 +154,6 @@ docker-compose exec web bash
 docker-compose exec db psql -U postgres -d eventmaster
 ```
 
-## Static and Media Files
-
-### Collect Static Files
-```bash
-docker-compose exec web python manage.py collectstatic --noinput
-```
-
-### Media Files
-Media files are stored in the `media` directory and served by Nginx. Files uploaded through the application will be stored here.
-
 ## Troubleshooting
 
 ### Environment Variable Issues During Build
@@ -152,7 +163,12 @@ If you encounter errors related to missing environment variables during the Dock
 2. The `.env` file is mounted as a volume in your docker-compose.yml
 3. Default values are provided in settings.py for critical environment variables
 
-Example error:
+### Static Files Not Showing Up
+If static files are not showing up in production:
+1. Ensure collectstatic has run successfully
+2. Check that the nginx configuration is pointing to the correct staticfiles directory
+3. Verify permissions on the staticfiles directory
+4. Check nginx logs for any errors
 
 ### Database Connection Issues
 If you encounter database connection issues, ensure the database container is running:
@@ -179,7 +195,7 @@ docker-compose exec web python manage.py migrate app_name migration_name
 ### Permissions Issues
 If you encounter permissions issues with static or media files:
 ```bash
-docker-compose exec web chmod -R 755 /app/static /app/media
+docker-compose exec web chmod -R 755 /app/static /app/staticfiles /app/media
 ```
 
 ## Scaling (For High Traffic)
