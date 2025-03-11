@@ -93,6 +93,9 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{% url 'authentication:profile' %}">Profile</a>
                                     <a class="dropdown-item" href="{% url "authentication:my_tickets" %}">My Tickets</a>
+                                    {% if user.is_staff %}
+                                        <a class="dropdown-item" href="{% url 'scan_ticket' %}">Scan Ticket</a>
+                                    {% endif %}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'authentication:logout' %}">Logout</a>
                                 </div>
